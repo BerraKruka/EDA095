@@ -14,7 +14,7 @@ public class Player extends GameEntity{
 	private Pos pos;
 	GameEntity[][] positions;
 	
-	public Player(Pos pos, int width, int height, GameEntity[][] positions){
+	public Player(Pos pos, float width, float height, GameEntity[][] positions){
 		super(pos,width,height);
 		this.pos = pos;
 		this.positions = positions;
@@ -60,34 +60,33 @@ public class Player extends GameEntity{
 		}
 	}
 	
+private void moveInDirection(int direction, float delta){
+		switch(direction){
+			case(Player.DOWN):
+				pos.move(0,delta);
+				break;
+			case(Player.UP):
+				pos.move(0,-delta);
+				break;
+			case(Player.LEFT):
+				pos.move(-delta,0);
+				break;
+			case(Player.RIGHT):
+				pos.move(delta,0);
+				break;
+		}
+	}
 	public void move(int direction, float delta) {
 		// set the direction of player after movement
 		playerSprite = getDirection(direction);
-		float xNew = pos.x;
-		float yNew = pos.y;
-		switch(direction){
-			case(Player.DOWN):
-				yNew = pos.moveY(delta);
-				break;
-			case(Player.UP):
-				yNew = pos.moveY(-delta);
-				break;
-			case(Player.LEFT):
-				xNew = pos.moveX(-delta);
-				break;
-			case(Player.RIGHT):
-				xNew = pos.moveX(delta);
-				break;
-		}
-		if (!isBlocked(direction,xNew, yNew)) {
+		moveInDirection(direction,delta);
+		if (isBlocked(direction,pos.x, pos.y)) {
+			moveInDirection(direction,-delta-1f);
+		}else{
 			long timeUpdate = (long) (delta*5);
 			playerSprite.update(timeUpdate);
-			pos.updatePos(xNew, yNew);
-			this.setPos(pos);
-		}else{
-			pos.updatePos(pos.x - delta, pos.y - delta);
-			this.setPos(pos);
 		}
+		this.setPos(pos);
 	}
 	private boolean isBlocked(int direction,float x, float y){
 		int relX = (int) x/34;

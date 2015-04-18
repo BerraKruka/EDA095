@@ -8,11 +8,9 @@ public class Pos {
 		this.x = x * POS_REL;
 		this.y = y * POS_REL;
 	}
-	public float moveX(float deltaX){
-		return this.x+deltaX;
-	}
-	public float moveY(float deltaY){
-		return this.y+deltaY;
+	public void  move(float deltaX,float deltaY){
+		x+= deltaX;
+		y+= deltaY;
 	}
 	public void updatePos(float xNew,float yNew){
 		x = xNew ;

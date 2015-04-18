@@ -8,7 +8,7 @@ public class SteelBox extends GameEntity {
 	public final static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	private Image boxSprite;
 	private Pos pos;
-	public SteelBox(Pos pos, int width, int height, int direction) {
+	public SteelBox(Pos pos, float width, float height, int direction) {
 		super(pos, width, height);
 		this.pos = pos;
 		// TODO Auto-generated constructor stub

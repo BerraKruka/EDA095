@@ -1,5 +1,8 @@
 package gameState;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Game;
@@ -14,112 +17,86 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
+import entity.*;
+
 public class GameStart extends BasicGameState {
 	private StateBasedGame game; // stored for later use
-
+	private Player player;
+	private SteelBox box;
+	private LinkedList<SteelBox> steelBoxes;
+	private GameEntity[][] positions;
+	
+	public GameStart() throws SlickException{
+		grassMap = new TiledMap("data/grassmap.tmx");
+		positions = new GameEntity[grassMap.getWidth()][grassMap.getHeight()];
+		System.out.println(positions.length+" ::::::"+positions[0].length);
+		steelBoxes = new LinkedList<SteelBox>();
+		initTemp();
+	}
+	
 	/**
 	 * The collision map indicating which tiles block movement - generated based
 	 * on tile properties
 	 */
 	private TiledMap grassMap;
-	private boolean[][] blocked;
-
-	private static final int SIZE = 34;
-
-	// animation for movement
-	private Animation sprite, up, down, left, right;
-	private float x = 34f, y = 34f;
 
 	public final static int ID = 1;
 
-	private void initAnimation() throws SlickException {
-		Image[] movementUp = { new Image("data/back.png"),new Image("data/back1.png") };
-		Image[] movementDown = { new Image("data/front.png"),new Image("data/front1.png") };
-		Image[] movementLeft = { new Image("data/left.png"),
-				new Image("data/left1.png") };
-		Image[] movementRight = { new Image("data/right.png"),
-				new Image("data/right1.png") };
 
-		int[] duration = { 300, 300 };
-
-		/*
-		 * false variable means do not auto update the animation. By setting it
-		 * to false animation will update only when the user presses a key.
-		 */
-		up = new Animation(movementUp, duration, false);
-		down = new Animation(movementDown, duration, false);
-		left = new Animation(movementLeft, duration, false);
-		right = new Animation(movementRight, duration, false);
-
-		// this will depend on the player later on.
-		sprite = right;
+	/** temporär funktion för att init några 
+	 * state för att testa 
+	 *  */
+	private void initTemp(){
+		float size = GameEntity.SIZE ;
+		Pos pos = new Pos(1,1);
+		player = new Player(pos,size , size,positions);
+		
+		pos = new Pos(4,5);
+		box = new SteelBox(pos,size,size,SteelBox.DOWN);
+		positions[4][5] = box;
 	}
-
-	private void initMap() throws SlickException {
-		grassMap = new TiledMap("data/grassmap.tmx");
-		// build a collision map based on tile properties in the TileD map
-		blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
-
-		for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
-			for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
-				int tileID = grassMap.getTileId(xAxis, yAxis, 0);
-				String value = grassMap.getTileProperty(tileID, "blocked",
-						"false");
-				if ("true".equals(value)) {
-					blocked[xAxis][yAxis] = true;
-				}
-			}
-		}
-	}
-
+	
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		// begin temp code
 		this.game = game;
-		initAnimation();
-		initMap();
+		player.initAnimation();
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
+		// temporary code, give player a start pos;
+	
 		grassMap.render(0, 0);
-		sprite.draw((int) x, (int) y);
+		player.draw();
+		box.draw();
 	}
-
-	private void action(Animation direction, int deltaX, int deltaY) {
-		// set the direction of player after movement
-		sprite = direction;
-		float xNew = x + deltaX * 0.1f;
-		float yNew = y + deltaY * 0.1f;
-
-		if (!isBlocked(xNew, yNew)) {
-			sprite.update(deltaX + deltaY);
-			y = yNew;
-			x = xNew;
-		}
-	}
+	
 
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta)
+	public void update(GameContainer container, StateBasedGame game, int d)
 			throws SlickException {
 		Input input = container.getInput();
-
+		
+		// action for player in here
+		float delta = d*0.1f;
 		if (input.isKeyDown(Input.KEY_UP)) {
-			action(up, 0, -delta);
+			player.move(Player.UP, delta);
 		} else if (input.isKeyDown(Input.KEY_DOWN)) {
-			action(down, 0, delta);
+			player.move(Player.DOWN, delta);
 		} else if (input.isKeyDown(Input.KEY_LEFT)) {
-			action(left, -delta, 0);
+			player.move(Player.LEFT,delta);
 		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
-			action(right, delta, 0);
+			player.move(Player.RIGHT, delta);
 		}
+		// action for bomb :)
+		else if (input.isKeyDown(Input.KEY_SPACE)){
+			
+		}
+		
 	}
 
-	private boolean isBlocked(float f, float y2) {
-		int xBlock = (int) x / SIZE;
-		int yBlock = (int) y / SIZE;
-		return blocked[xBlock][yBlock];
-	}
 
 	@Override
 	public int getID() {

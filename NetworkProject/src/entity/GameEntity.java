@@ -8,9 +8,9 @@ import org.newdawn.slick.tests.xml.Entity;
 
 public abstract class GameEntity extends Entity {
 	protected Shape boundingBox;
-
-	public GameEntity(Pos pos, int width, int height){
-		boundingBox  = new Rectangle(pos.x, pos.y, 34f, 34f);
+	public static final float SIZE = 34f;
+	public GameEntity(Pos pos, float width, float height){
+		boundingBox  = new Rectangle(pos.x, pos.y, width, height);
 		boundingBox.setLocation(pos.x, pos.y);
 		
 	}
