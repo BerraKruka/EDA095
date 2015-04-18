@@ -22,6 +22,9 @@ import com.esotericsoftware.kryonet.Client;
 import entity.*;
 
 public class GameStart extends BasicGameState {
+	private TiledMap grassMap;
+
+	public final static int ID = 10;
 	private Client client;
 	private StateBasedGame game; // stored for later use
 	private Player player;
@@ -29,27 +32,23 @@ public class GameStart extends BasicGameState {
 	private LinkedList<SteelBox> steelBoxes;
 	private GameEntity[][] positions;
 	
-	public GameStart(Client client) throws SlickException{
+	public GameStart() throws SlickException{
 		grassMap = new TiledMap("data/grassmap.tmx");
 		positions = new GameEntity[grassMap.getWidth()][grassMap.getHeight()];
-		System.out.println(positions.length+" ::::::"+positions[0].length);
 		steelBoxes = new LinkedList<SteelBox>();
-		initTemp();
 	}
 	
 	/**
 	 * The collision map indicating which tiles block movement - generated based
 	 * on tile properties
 	 */
-	private TiledMap grassMap;
-
-	public final static int ID = 1;
-
 
 	/** temporär funktion för att init några 
 	 * state för att testa 
 	 *  */
 	private void initTemp(){
+		System.out.println(positions.length+" ::::::"+positions[0].length);
+
 		float size = GameEntity.SIZE ;
 		Pos pos = new Pos(1,1);
 		player = new Player(pos,size , size,positions);
@@ -63,7 +62,9 @@ public class GameStart extends BasicGameState {
 			throws SlickException {
 		// begin temp code
 		this.game = game;
+		initTemp();
 		player.initAnimation();
+
 	}
 
 	@Override

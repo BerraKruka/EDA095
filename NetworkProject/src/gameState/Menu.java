@@ -24,10 +24,9 @@ public class Menu extends BasicGameState{
             throws SlickException {
         g.setColor(Color.white);
         g.drawString("Bomber Man", 50, 10);
-     
-        g.drawString("1. Host A Game", 50, 100);
-        g.drawString("2. Join A Game", 50, 100);
-        g.drawString("3. Quit", 50, 120);
+        g.drawString("ESC",600,10);
+        g.drawString("1. Join A Game", 50, 100);
+        g.drawString("2. Host A Game", 50, 120);
      
     }
  
@@ -44,10 +43,11 @@ public class Menu extends BasicGameState{
     public void keyReleased(int key, char c) {
         switch(key) {
         case Input.KEY_1:
-            game.enterState(GameStart.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            game.enterState(ClientScreen.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             break;
         case Input.KEY_2:
-            game.enterState(GameStart.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+            game.enterState(ServerScreen.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+
             break;
         default:
             break;

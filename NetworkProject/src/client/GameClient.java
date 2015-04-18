@@ -12,21 +12,14 @@ import org.newdawn.slick.SlickException;
 import com.esotericsoftware.kryonet.Client;
 
 public class GameClient {
-		public GameClient(){
-			
+		private Client client;
+		public GameClient() throws SlickException{
+			client = new Client();
+			NetworkUtils.registerPackages(client.getKryo());
+			client.addListener(new ClientListener());
+			client.start();
 		}
-	public static void main(String[] args) throws IOException, InterruptedException, SlickException {
-		Client client = new Client();
-		PackageRegister.registerPackages(client.getKryo());
-		client.addListener(new ClientListener());
-		client.start();
-	    client.connect(5000, "localhost", 54555, 54777);
-
-	    
-	    GameStart game = new GameStart(client);
-	    SomeRequest request = new SomeRequest();
-	    request.text = "Here is the request";
-	    client.sendTCP(request);
-	    Thread.sleep(1000);
-	    }
+		public void connect(int time, String address, int portTCP, int portUDP ) throws IOException{
+			client.connect(time, address, portTCP,portUDP);
+		}
 }

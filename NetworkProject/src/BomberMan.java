@@ -15,10 +15,13 @@ public class BomberMan extends StateBasedGame{
     public void initStatesList(GameContainer container) throws SlickException {
     	
     	Menu menu = new Menu();
-    	GameStart gameStart = new GameStart();
-    	
+    	ClientScreen joinGame = new ClientScreen();
+    	ServerScreen hostGame = new ServerScreen();    	
     	addState(menu);
-    	addState(gameStart);
+    	addState(joinGame);
+    	addState(hostGame);
+    	
+
  
     }
    
