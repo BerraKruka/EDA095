@@ -16,4 +16,7 @@ public class Pos {
 		x = xNew ;
 		y = yNew ;
 	}
+	public Pos getFuturePos(float deltaX,float deltaY){
+		return new Pos(x+deltaX,y+deltaY);
+	}
 }

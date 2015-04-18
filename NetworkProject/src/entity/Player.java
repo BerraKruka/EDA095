@@ -80,8 +80,9 @@ private void moveInDirection(int direction, float delta){
 		// set the direction of player after movement
 		playerSprite = getDirection(direction);
 		moveInDirection(direction,delta);
+		this.setPos(pos);
 		if (isBlocked(direction,pos.x, pos.y)) {
-			moveInDirection(direction,-delta-1f);
+			moveInDirection(direction,-delta);
 		}else{
 			long timeUpdate = (long) (delta*5);
 			playerSprite.update(timeUpdate);
@@ -91,13 +92,10 @@ private void moveInDirection(int direction, float delta){
 	private boolean isBlocked(int direction,float x, float y){
 		int relX = (int) x/34;
 		int relY = (int) y/34;
-		boolean option ;
-		System.out.println(relX+" - "+relY );
 		switch(direction){
 			case(Player.RIGHT):
-					option =  this.intersects(positions[relX+1][relY])
+					return  this.intersects(positions[relX+1][relY])
 						    || this.intersects(positions[relX+1][relY+1]);
-					return option;
 			case(Player.LEFT):
 					return this.intersects(positions[relX][relY])
 						 ||this.intersects(positions[relX][relY+1]);
