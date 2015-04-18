@@ -25,9 +25,9 @@ public class Menu extends BasicGameState{
         g.setColor(Color.white);
         g.drawString("Bomber Man", 50, 10);
      
-        g.drawString("1. Play Game", 50, 100);
-        g.drawString("2. High Scores", 50, 120);
-        g.drawString("3. Quit", 50, 140);
+        g.drawString("1. Host A Game", 50, 100);
+        g.drawString("2. Join A Game", 50, 100);
+        g.drawString("3. Quit", 50, 120);
      
     }
  
@@ -47,10 +47,7 @@ public class Menu extends BasicGameState{
             game.enterState(GameStart.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             break;
         case Input.KEY_2:
-            // TODO: Implement later
-            break;
-        case Input.KEY_3:
-            // TODO: Implement later
+            game.enterState(GameStart.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
             break;
         default:
             break;

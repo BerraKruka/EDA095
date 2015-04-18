@@ -17,16 +17,19 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
+import com.esotericsoftware.kryonet.Client;
+
 import entity.*;
 
 public class GameStart extends BasicGameState {
+	private Client client;
 	private StateBasedGame game; // stored for later use
 	private Player player;
 	private SteelBox box;
 	private LinkedList<SteelBox> steelBoxes;
 	private GameEntity[][] positions;
 	
-	public GameStart() throws SlickException{
+	public GameStart(Client client) throws SlickException{
 		grassMap = new TiledMap("data/grassmap.tmx");
 		positions = new GameEntity[grassMap.getWidth()][grassMap.getHeight()];
 		System.out.println(positions.length+" ::::::"+positions[0].length);
