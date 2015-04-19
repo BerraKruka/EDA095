@@ -1,15 +1,14 @@
 package client;
 
-import networkInfo.SomeResponse;
+import networkInfo.JoinResponse;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-public class ClientListener extends Listener{
+public class ClientJoinListener extends Listener{
         public void received (Connection connection, Object object) {
-        	System.out.println("i receive something");
-           if (object instanceof SomeResponse) {
-              SomeResponse response = (SomeResponse)object;
+           if (object instanceof JoinResponse) {
+              JoinResponse response = (JoinResponse)object;
               System.out.println(response.text);
            }
         }

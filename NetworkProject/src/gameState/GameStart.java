@@ -24,7 +24,7 @@ import entity.*;
 public class GameStart extends BasicGameState {
 	private TiledMap grassMap;
 
-	public final static int ID = 10;
+	public final static int ID = 9;
 	private Client client;
 	private StateBasedGame game; // stored for later use
 	private Player player;

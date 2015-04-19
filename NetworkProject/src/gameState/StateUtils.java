@@ -8,10 +8,11 @@ import org.newdawn.slick.gui.TextField;
 public class StateUtils {
 	public static final	Font font = new TrueTypeFont(new java.awt.Font(java.awt.Font.SERIF,java.awt.Font.BOLD , 12), false);
 
-	public static void setTextFieldAttr(TextField tf, String text){
+	public static void setTextFieldAttr(TextField tf, String text, Boolean input){
 	     tf.setText(text);
-		 tf.setAcceptingInput(true);
+		 tf.setAcceptingInput(input);
 	     tf.setCursorVisible(true);
 	     tf.setBackgroundColor(Color.lightGray);
+	     tf.setCursorPos(100);
 	}
 }

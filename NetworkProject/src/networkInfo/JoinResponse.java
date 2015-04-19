@@ -1,7 +1,5 @@
 package networkInfo;
 
-public class SomeRequest {
-
+public class JoinResponse {
 	public String text;
-
 }

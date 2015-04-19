@@ -23,13 +23,12 @@ public class ClientScreen extends BasicGameState{
 			throws SlickException {
 		// TODO Auto-generated method stub
 	    this.game = game;
-	
+	    Boolean input = true;
 	    playerID = new TextField(container,StateUtils.font,200,60,200,20);
-        playerID.setFocus(true);
-		StateUtils.setTextFieldAttr(playerID,"Noway");
+		StateUtils.setTextFieldAttr(playerID,"Noway",input);
 		playerID.setCursorPos(200);
 		hostIP = new TextField(container,StateUtils.font,200,80,200,20);
-		StateUtils.setTextFieldAttr(hostIP,"localhost");
+		StateUtils.setTextFieldAttr(hostIP,"localhost",input);
 
 	}
 	
@@ -75,7 +74,7 @@ public class ClientScreen extends BasicGameState{
 	            break;
 	        case Input.KEY_ENTER:
 	        	game.enterState(Menu.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-
+	        	break;
 	        case Input.KEY_ESCAPE:
 	        	game.enterState(Menu.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
 

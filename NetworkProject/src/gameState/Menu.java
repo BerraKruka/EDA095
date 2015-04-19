@@ -47,8 +47,9 @@ public class Menu extends BasicGameState{
             break;
         case Input.KEY_2:
             game.enterState(ServerScreen.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-
             break;
+        case Input.KEY_ESCAPE:
+        	System.exit(0);
         default:
             break;
         }
