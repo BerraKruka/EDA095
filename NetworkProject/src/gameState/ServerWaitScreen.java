@@ -12,14 +12,12 @@ import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import server.PackageMonitor;
 import server.JoinGameListener;
+import server.PackageMonitor;
 import client.ClientJoinListener;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
-
-import entity.Player;
 
 public class ServerWaitScreen extends BasicGameState{
 	public final static int ID = 22;
@@ -56,15 +54,20 @@ public class ServerWaitScreen extends BasicGameState{
 		NetworkUtils.registerPackages(server.getKryo());
 		
 		server.start();
-		server.bind(54555,54777);
+		
+		server.bind(NetworkUtils.TCPport,NetworkUtils.UDPport);
+		
 		server.addListener(new JoinGameListener(monitor));
+		System.out.println("this should begin first");
 	}
 	public void startClient(String name) throws IOException{
+		System.out.println("this mean client shoud begin after");
 		client = new Client();
-		NetworkUtils.registerPackages(client.getKryo());
 		client.start();
+		NetworkUtils.registerPackages(client.getKryo());
 		
-		client.connect(5000, "localhost", 54555,54777);
+		client.connect(5000, "localhost", NetworkUtils.TCPport,NetworkUtils.UDPport);
+		
 		JoinRequest request = new JoinRequest(name);
 		client.sendTCP(request);
 		client.addListener(new ClientJoinListener());

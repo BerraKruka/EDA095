@@ -11,7 +11,6 @@ public class JoinGameListener extends Listener {
 	private PackageMonitor monitor;
 	public  JoinGameListener(PackageMonitor monitor){
 		this.monitor = monitor;
-		System.out.println("listener create");
 	}
 	
 	@Override
