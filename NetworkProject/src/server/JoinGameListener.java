@@ -1,6 +1,5 @@
 package server;
 
-import networkInfo.PlayerAction;
 import networkInfo.JoinRequest;
 import networkInfo.JoinResponse;
 
@@ -8,20 +7,23 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 public class JoinGameListener extends Listener {
-	private PackageMonitor monitor;
-	public  JoinGameListener(PackageMonitor monitor){
+	private ServerMonitor monitor;
+	private JoinResponse response;
+	public  JoinGameListener(ServerMonitor monitor){
 		this.monitor = monitor;
+		response = new JoinResponse();
 	}
 	
-	@Override
 	public void received(Connection connection, Object object) {
-		System.out.println("server received some packange ?");
 		if (object instanceof JoinRequest) {
 			JoinRequest request = (JoinRequest) object;
-			System.out.println(request.id);
+			String clientName = request.id;
 			
-			JoinResponse response = new JoinResponse();
-			response.text = "Thanks";
+			int playerNumber = monitor.assignID(request.id);
+			response = new JoinResponse();
+			response.number = playerNumber;
+			System.out.println("Connection to client"+clientName+"has been made"
+							+ "	\n  player number is :"+ playerNumber);
 			connection.sendTCP(response);
 		}
 	}

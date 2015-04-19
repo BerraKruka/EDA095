@@ -10,7 +10,7 @@ import com.esotericsoftware.kryonet.Listener;
 public class ClientTest {
 	public static void main(String[] args) throws IOException, InterruptedException {
 		Client client = new Client();
-		client.start();
+		new Thread(client).start();
 
 		Kryo kryo = client.getKryo();
 		kryo.register(SomeRequest.class);

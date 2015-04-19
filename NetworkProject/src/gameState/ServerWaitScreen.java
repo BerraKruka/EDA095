@@ -13,66 +13,66 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import server.JoinGameListener;
-import server.PackageMonitor;
+import server.ServerMonitor;
 import client.ClientJoinListener;
+import client.ClientMonitor;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
 
 public class ServerWaitScreen extends BasicGameState{
 	public final static int ID = 22;
-	private int playerID;
+	private int playerNumber;
 	
 	private StateBasedGame game;
-	private TextField player1,player2,player3,player4;
 	
+	private TextField[] allPlayer;
 	private Server server;
+	private ServerMonitor serverMonitor;
 	private Client client;
-	private String hostIP ;
-	private PackageMonitor monitor;
+	private ClientMonitor clientMonitor;
 	@Override
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 			this.game = game;
-	
-		    player1 = new TextField(container,StateUtils.font,200,60,200,20);
-		    player2 = new TextField(container,StateUtils.font,200,80,200,20);
-		    player3 = new TextField(container,StateUtils.font,200,100,200,20);
-		    player4 = new TextField(container,StateUtils.font,200,120,200,20);
-			
-		    Boolean input = false;
-		    StateUtils.setTextFieldAttr(player1,"waiting...",input);
-			StateUtils.setTextFieldAttr(player2,"waiting...",input);
-			StateUtils.setTextFieldAttr(player3,"waiting...",input);
-			StateUtils.setTextFieldAttr(player4,"waiting...",input);
+			Boolean input = false;
+			allPlayer = new TextField[4];
+			for(int i = 0; i < 4; i++){
+				allPlayer[i] =  new TextField(container,StateUtils.font,200,60+20*i,200,20);
+			    StateUtils.setTextFieldAttr(allPlayer[i],"waiting...",input);
+			}
 	}
 	
+	// now start the server.
 	public void startServer() throws IOException{	
-		System.out.println("hello, im server");
-		monitor = new PackageMonitor();
-
+		serverMonitor = new ServerMonitor();
 		server = new Server();
+		server.start();
 		NetworkUtils.registerPackages(server.getKryo());
 		
-		server.start();
-		
 		server.bind(NetworkUtils.TCPport,NetworkUtils.UDPport);
-		
-		server.addListener(new JoinGameListener(monitor));
-		System.out.println("this should begin first");
+		server.addListener(new JoinGameListener(serverMonitor));
 	}
 	public void startClient(String name) throws IOException{
-		System.out.println("this mean client shoud begin after");
+		clientMonitor = new ClientMonitor();
 		client = new Client();
-		client.start();
+		new Thread(client).start();
 		NetworkUtils.registerPackages(client.getKryo());
 		
 		client.connect(5000, "localhost", NetworkUtils.TCPport,NetworkUtils.UDPport);
+		client.addListener(new ClientJoinListener(clientMonitor));
 		
-		JoinRequest request = new JoinRequest(name);
+		// this send one time only, to join the game.
+		JoinRequest request = new JoinRequest();
+		request.id = name;
 		client.sendTCP(request);
-		client.addListener(new ClientJoinListener());
-		System.out.println("am i connected  ? "+ client.isConnected());
-
+		
+		// we now get his stuff from the listener
+		try {
+			playerNumber = clientMonitor.getNumber();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		allPlayer[playerNumber].setText(name);
 		
 	}
 
@@ -80,18 +80,15 @@ public class ServerWaitScreen extends BasicGameState{
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		player1.render(container,g);
-		player2.render(container, g);
-		player3.render(container,g);
-		player4.render(container, g);
+		for(TextField tf : allPlayer){
+			tf.render(container, g);
+		}
 	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
-		JoinRequest request = new JoinRequest("hello");
-		client.sendTCP(request);
-
+		
 	}
 
 	@Override
