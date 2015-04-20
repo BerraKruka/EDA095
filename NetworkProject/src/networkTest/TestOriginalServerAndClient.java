@@ -3,7 +3,7 @@ package networkTest;
 import java.io.IOException;
 
 import networkInfo.JoinRequest;
-import networkInfo.JoinResponse;
+import networkInfo.JoinAckResponse;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
@@ -14,7 +14,7 @@ import com.esotericsoftware.kryonet.Server;
 public class TestOriginalServerAndClient {
 	public static void kryoConfig(Kryo k) {
 		k.register(JoinRequest.class);
-		k.register(JoinResponse.class);
+		k.register(JoinAckResponse.class);
 	}
 	
 
@@ -45,8 +45,8 @@ public class TestOriginalServerAndClient {
 		client.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
 				System.out.println(object.toString());
-				if (object instanceof JoinResponse) {
-					JoinResponse response = (JoinResponse) object;
+				if (object instanceof JoinAckResponse) {
+					JoinAckResponse response = (JoinAckResponse) object;
 					System.out.println(response.number);
 				}
 			}

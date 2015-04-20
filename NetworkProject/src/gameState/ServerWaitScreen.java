@@ -20,67 +20,52 @@ import client.ClientMonitor;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
 
-public class ServerWaitScreen extends BasicGameState{
+public class ServerWaitScreen extends BasicGameState {
 	public final static int ID = 22;
-	private int playerNumber;
-	
+
 	private StateBasedGame game;
-	
-	private TextField[] allPlayer;
+
 	private Server server;
 	private ServerMonitor serverMonitor;
+
+	private TextField[] allPlayer;
+	private int nPlayers;
+	private String currentPlayerID;
+	private int currentPlayerNumber;
+	private String[] currentPlayers;
+
 	private Client client;
 	private ClientMonitor clientMonitor;
+
 	@Override
-	public void init(GameContainer container, StateBasedGame game) throws SlickException {
-			this.game = game;
-			Boolean input = false;
-			allPlayer = new TextField[4];
-			for(int i = 0; i < 4; i++){
-				allPlayer[i] =  new TextField(container,StateUtils.font,200,60+20*i,200,20);
-			    StateUtils.setTextFieldAttr(allPlayer[i],"waiting...",input);
-			}
+	public void init(GameContainer container, StateBasedGame game)
+			throws SlickException {
+		this.game = game;
+
+		allPlayer = new TextField[4];
+		StateUtils.initPlayersTextField(container, allPlayer);
 	}
-	
+
 	// now start the server.
-	public void startServer() throws IOException{	
+	public void startServer() throws IOException {
 		serverMonitor = new ServerMonitor();
-		server = new Server();
-		server.start();
-		NetworkUtils.registerPackages(server.getKryo());
-		
-		server.bind(NetworkUtils.TCPport,NetworkUtils.UDPport);
+		server = NetworkUtils.setupServer();
 		server.addListener(new JoinGameListener(serverMonitor));
+		server.start();
+
 	}
-	public void startClient(String name) throws IOException{
-		clientMonitor = new ClientMonitor();
-		client = new Client();
-		new Thread(client).start();
-		NetworkUtils.registerPackages(client.getKryo());
-		
-		client.connect(5000, "localhost", NetworkUtils.TCPport,NetworkUtils.UDPport);
-		client.addListener(new ClientJoinListener(clientMonitor));
-		
-		// this send one time only, to join the game.
-		JoinRequest request = new JoinRequest();
-		request.id = name;
-		client.sendTCP(request);
-		
-		// we now get his stuff from the listener
-		try {
-			playerNumber = clientMonitor.getNumber();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		allPlayer[playerNumber].setText(name);
-		
+
+	public void startClient(String name) throws IOException {
+		currentPlayerID = name;
+		clientMonitor = new ClientMonitor(currentPlayerID);
+		client = NetworkUtils.setupClient(clientMonitor,"localhost");
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		for(TextField tf : allPlayer){
+		for (TextField tf : allPlayer) {
 			tf.render(container, g);
 		}
 	}
@@ -88,7 +73,19 @@ public class ServerWaitScreen extends BasicGameState{
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
-		
+		try {
+			if (clientMonitor.newInfo()) {
+				nPlayers = clientMonitor.getNPlayers();
+				currentPlayerNumber = clientMonitor.getPlayerNumber();
+				currentPlayers = clientMonitor.getCurrentPlayers();
+				for (int i = 0; i < nPlayers; i++) {
+					allPlayer[i].setText(currentPlayers[i]);
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -96,6 +93,5 @@ public class ServerWaitScreen extends BasicGameState{
 		// TODO Auto-generated method stub
 		return ID;
 	}
-	
 
 }

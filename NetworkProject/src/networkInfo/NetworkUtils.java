@@ -1,6 +1,15 @@
 package networkInfo;
 
+import java.io.IOException;
+
+import server.JoinGameListener;
+import server.ServerMonitor;
+import client.ClientJoinListener;
+import client.ClientMonitor;
+
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Server;
 
 public class NetworkUtils {
 	public final static int PLAYER1_ID = 0;
@@ -13,7 +22,32 @@ public class NetworkUtils {
 	
 	public static void registerPackages(Kryo kryo){
 		kryo.register(JoinRequest.class);
-		kryo.register(JoinResponse.class);
+		kryo.register(JoinAckResponse.class);
 		kryo.register(PlayerAction.class);
+		kryo.register(String[].class);
 	}
+	
+	public static Server setupServer() throws IOException{
+		Server server = new Server();
+		registerPackages(server.getKryo());
+		server.bind(TCPport,UDPport);
+		return server;
+	}
+	
+	public static Client setupClient(ClientMonitor monitor, String hostIP) throws IOException{
+		Client client = new Client();
+		
+		registerPackages(client.getKryo());
+		
+		client.addListener(new ClientJoinListener(monitor));
+		new Thread(client).start();
+		client.connect(5000, hostIP, TCPport,UDPport);
+		
+		JoinRequest request = new JoinRequest();
+		request.id = monitor.getCurrentPlayerID();
+		client.sendTCP(request);
+
+		return client;
+	}
+
 }

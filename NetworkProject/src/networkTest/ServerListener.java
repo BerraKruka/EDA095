@@ -1,7 +1,7 @@
 package networkTest;
 
 import networkInfo.JoinRequest;
-import networkInfo.JoinResponse;
+import networkInfo.JoinAckResponse;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -13,7 +13,7 @@ public class ServerListener extends Listener{
 			JoinRequest request = (JoinRequest) object;
 			System.out.println(request.id);
 
-			JoinResponse response = new JoinResponse();
+			JoinAckResponse response = new JoinAckResponse();
 //			response.id = "Thanks";
 			connection.sendTCP(response);
 		}

@@ -29,6 +29,7 @@ public class ServerScreen extends BasicGameState{
 	    playerID = new TextField(container,StateUtils.font,200,60,200,20);
 		StateUtils.setTextFieldAttr(playerID,"Noway",input);
 		playerID.setCursorPos(200);
+
 		
 	}
 	

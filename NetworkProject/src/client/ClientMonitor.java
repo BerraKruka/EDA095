@@ -1,32 +1,73 @@
 package client;
 
+import networkInfo.AckResponse;
+import networkInfo.JoinAckResponse;
+
 public class ClientMonitor {
-	private String name;
-	
-	private String[] playerName;
-	private boolean notYetAssigned;
+	// if acknowledge joining 
+	private String currentPlayerID;
+	private int currentPlayerNumber;
+	private int nPlayers;
+	private String[] currentPlayers;
+
+	private boolean newInfo;
+	// if same name
+	private boolean message;
 
 	// this will get determine where and who the player will appear
-	private int number;
-	
-	public ClientMonitor(){
-		notYetAssigned = true;
+
+	public ClientMonitor(String name) {
+		currentPlayerID = name;
+		currentPlayerNumber = -1;
+		newInfo = false;
 	}
-	public synchronized void setName(String name){
-		this.name = name;
+
+	private void extractCurrentPlayerNumber() {
+		if (currentPlayerNumber < 0) {
+			for (int i = 0; i < nPlayers; i++) {
+				if (currentPlayers[i].equals(currentPlayerID)) {
+					currentPlayerNumber = i;
+					return;
+				}
+			}
+		}
+	}
+	
+	public  synchronized void setJoinAckRespons(JoinAckResponse response) {
+		currentPlayers = response.currentPlayers;
+		nPlayers = response.number;
+		extractCurrentPlayerNumber();
+		newInfo = true;
+	}
+	
+	public  synchronized void setAckRespons(AckResponse response) {
+		message = response.message;
+		newInfo = true;
+	}
+	public synchronized boolean getAckRespons(){
+		return message;
 	}
 	
 	
-	
-	
-	public synchronized void setNumber(int number){
-		this.number = number;
-		notYetAssigned = false;
-		notifyAll();
+	public synchronized boolean newInfo(){
+		return newInfo;
 	}
-	public synchronized int getNumber() throws InterruptedException{
-		while(notYetAssigned) wait();
-		return number;
+	
+	
+	public synchronized String getCurrentPlayerID(){
+		return currentPlayerID;
+	}
+	
+	// these three should always be call in this order.
+	public synchronized int getNPlayers() throws InterruptedException{
+		return nPlayers;
+	}
+	public synchronized int getPlayerNumber() throws InterruptedException{
+		return currentPlayerNumber;
+	}
+	public synchronized String[] getCurrentPlayers() throws InterruptedException{
+		newInfo = false;
+		return currentPlayers;
 	}
 	
 }

@@ -1,6 +1,8 @@
 package client;
 
-import networkInfo.JoinResponse;
+import networkInfo.AckResponse;
+import networkInfo.JoinAckResponse;
+import networkInfo.NackResponse;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -12,10 +14,14 @@ public class ClientJoinListener extends Listener{
         }
 
 		public void received (Connection connection, Object object) {
-           if (object instanceof JoinResponse) {
-              JoinResponse response = (JoinResponse)object;
-              System.out.println(response.number);
-              monitor.setNumber(response.number);
+           if (object instanceof JoinAckResponse) {
+              JoinAckResponse response = (JoinAckResponse)object;              
+              monitor.setJoinAckRespons(response);
+           }else if(object instanceof AckResponse){
+        	   AckResponse response = (AckResponse)object;              
+        	   
+
+        	   monitor.setAckResponse(response);
            }
         }
      

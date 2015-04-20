@@ -1,12 +1,24 @@
 package server;
 
+import networkInfo.JoinAckResponse;
+
 public class ServerMonitor {
-	private int nPlayer;
-	
+	private JoinAckResponse response;
 	public ServerMonitor(){
-		nPlayer = 0;
+		response = new JoinAckResponse();
+		response.currentPlayers = new String[4];
+		response.number = 0;
 	}
-	public synchronized int assignID(String name){
-		return nPlayer++;
+	public synchronized JoinAckResponse assignID(String ID){
+		response.currentPlayers[response.number++]= ID;
+		return response;
+	}
+	public synchronized boolean duplicatePlayerID(String ID){
+		for(int i = 0; i < response.number;i++){
+			if (response.currentPlayers[i].equals(ID)){
+				return true;
+			}
+		}
+		return false;
 	}
 }

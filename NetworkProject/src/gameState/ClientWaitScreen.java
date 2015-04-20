@@ -13,6 +13,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import client.ClientJoinListener;
+import client.ClientMonitor;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
@@ -20,55 +21,59 @@ import com.esotericsoftware.kryonet.Server;
 import entity.Player;
 
 public class ClientWaitScreen extends BasicGameState{
-	public final static int ID = 22;
+	public final static int ID = 23;
 	private StateBasedGame game;
-	private TextField player1,player2,player3,player4;
+	
+	private TextField[] allPlayer;
+	private int nPlayers;
+	private String currentPlayerID;
+	private int currentPlayerNumber;
+	private String[] currentPlayers;
+	
 	
 	private Client client;
-	private String hostIP ;
+	private ClientMonitor clientMonitor;
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
 			
 			this.game = game;
-			player1 = new TextField(container,StateUtils.font,200,60,200,20);
-			player2 = new TextField(container,StateUtils.font,200,80,200,20);
-			player3 = new TextField(container,StateUtils.font,200,100,200,20);
-			player4 = new TextField(container,StateUtils.font,200,120,200,20);
-
-			Boolean input = false;
-			StateUtils.setTextFieldAttr(player1,"waiting...",input);
-			StateUtils.setTextFieldAttr(player2,"waiting...",input);
-			StateUtils.setTextFieldAttr(player3,"waiting...",input);
-			StateUtils.setTextFieldAttr(player4,"waiting...",input);
+			
+			allPlayer = new TextField[4];
+			StateUtils.initPlayersTextField(container, allPlayer);
 	}
-	public void startClient(String name,String ip) throws IOException{
-		hostIP = ip;
-		client = new Client();
-		client.addListener(new ClientJoinListener());
-		NetworkUtils.registerPackages(client.getKryo());
-		client.start();
-		client.connect(5000, ip, 54555,54777);
-
-		JoinRequest request = new JoinRequest(name);
-		client.sendTCP(request);
+	public Client startClient(String name,String ip) throws IOException{
+			currentPlayerID = name;
+			clientMonitor = new ClientMonitor(currentPlayerID);
+			client = NetworkUtils.setupClient(clientMonitor,ip);
+			return client;
 	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		// TODO Auto-generated method stub
-		player1.render(container,g);
-		player2.render(container, g);
-		player3.render(container,g);
-		player4.render(container, g);
+		for (TextField tf : allPlayer) {
+			tf.render(container, g);
+		}
 	}
 
 	@Override
 	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
 			throws SlickException {
-		// TODO Auto-generated method stub
-		
+		try {
+			if (clientMonitor.newInfo()) {
+				nPlayers = clientMonitor.getNPlayers();
+				currentPlayerNumber = clientMonitor.getPlayerNumber();
+				currentPlayers = clientMonitor.getCurrentPlayers();
+				for (int i = 0; i < nPlayers; i++) {
+					allPlayer[i].setText(currentPlayers[i]);
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	@Override
