@@ -81,6 +81,10 @@ public class ClientWaitScreen extends BasicGameState{
 		// TODO Auto-generated method stub
 		return ID;
 	}
+	public ClientMonitor getMonitor() {
+		// TODO Auto-generated method stub
+		return clientMonitor;
+	}
 	
 
 }

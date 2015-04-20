@@ -16,6 +16,11 @@ public class ClientMonitor {
 
 	// this will get determine where and who the player will appear
 
+	
+	/**
+	 * Should not be any wait in here.
+	 * @param name
+	 */
 	public ClientMonitor(String name) {
 		currentPlayerID = name;
 		currentPlayerNumber = -1;

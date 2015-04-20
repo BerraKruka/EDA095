@@ -6,7 +6,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		AppGameContainer game = initGame();
 	}
-
+	
 	public static AppGameContainer initGame() throws SlickException {
 		AppGameContainer game = new AppGameContainer(new BomberMan("Pew Pew "));
 		game.setMaximumLogicUpdateInterval(60);

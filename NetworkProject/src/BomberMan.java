@@ -8,20 +8,22 @@ public class BomberMan extends StateBasedGame{
 
     public BomberMan(String name) {
         super(name);
-        // TODO Auto-generated constructor stub
     }
  
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
-    	
+    	// here start the game.
     	Menu menu = new Menu();
     	ClientScreen joinGame = new ClientScreen();
     	ServerScreen hostGame = new ServerScreen();
     	ServerWaitScreen serverWait = new ServerWaitScreen();
+    	ClientWaitScreen clientWait = new ClientWaitScreen();
+    	// all the screen is to be register.
     	addState(menu);
     	addState(joinGame);
     	addState(hostGame);
     	addState(serverWait);
+    	addState(clientWait);
 
  
     }

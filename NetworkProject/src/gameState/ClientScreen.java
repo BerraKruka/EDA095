@@ -13,6 +13,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import client.ClientMonitor;
+
 import com.esotericsoftware.kryonet.Client;
 
 public class ClientScreen extends BasicGameState{
@@ -73,10 +75,12 @@ public class ClientScreen extends BasicGameState{
     		String name = playerID.getText();
     		String ip = hostIP.getText();
 			Client client = clientWait.startClient(name, ip);
-			ClientMonitor monitor = clientWait.getMonito
+			ClientMonitor monitor = clientWait.getMonitor();
 			// this is to wait for a response after enter
 			message.setText("Attempt to Join Game");
 			Thread.sleep(3000);
+			// depends on the answer, we will do some different stuff
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);

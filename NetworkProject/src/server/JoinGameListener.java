@@ -1,7 +1,7 @@
 package server;
 
+import networkInfo.AckResponse;
 import networkInfo.JoinAckResponse;
-import networkInfo.NackResponse;
 import networkInfo.JoinRequest;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -20,8 +20,8 @@ public class JoinGameListener extends Listener {
 			String clientID = request.id;
 			
 			if(monitor.duplicatePlayerID(clientID)){
-			NackResponse response = new NackResponse();
-			response.message = "Your name is not unique.";
+				AckResponse response = new AckResponse();
+				response.message = false;;
 			}else{
 			JoinAckResponse response = monitor.assignID(clientID);
 			System.out.println(clientID+" request to join game");
