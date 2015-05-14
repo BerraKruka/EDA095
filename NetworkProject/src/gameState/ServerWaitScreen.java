@@ -2,15 +2,20 @@ package gameState;
 
 import java.io.IOException;
 
+import networkInfo.GameStartMessage;
 import networkInfo.JoinRequest;
 import networkInfo.NetworkUtils;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import server.JoinGameListener;
 import server.ServerMonitor;
@@ -93,5 +98,31 @@ public class ServerWaitScreen extends BasicGameState {
 		// TODO Auto-generated method stub
 		return ID;
 	}
+	
+	private void transitionHandler(){
+    	GameStart start = (GameStart) game.getState(GameStart.ID);
+    	server.sendToAllTCP(new GameStartMessage());
+    	System.out.println("send game start");
+    	/**try {
+					
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}**/
+	}
+	
+	 public void keyReleased(int key, char c) {
+	        switch(key) {        
+	        case Input.KEY_ENTER:
+	        	transitionHandler();
+	        	game.enterState(GameStart.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+	        	break;
+	        case Input.KEY_ESCAPE:
+	        	game.enterState(Menu.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+	            break;
+	        default:
+	            break;
+	        }
+	    }
 
 }

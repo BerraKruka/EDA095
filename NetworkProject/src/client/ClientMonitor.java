@@ -13,6 +13,8 @@ public class ClientMonitor {
 	private boolean newInfo;
 	// if same name
 	private boolean message;
+	
+	private boolean start;
 
 	// this will get determine where and who the player will appear
 
@@ -25,6 +27,7 @@ public class ClientMonitor {
 		currentPlayerID = name;
 		currentPlayerNumber = -1;
 		newInfo = false;
+		start = false;
 	}
 
 	private void extractCurrentPlayerNumber() {
@@ -73,6 +76,16 @@ public class ClientMonitor {
 	public synchronized String[] getCurrentPlayers() throws InterruptedException{
 		newInfo = false;
 		return currentPlayers;
+	}
+	
+	public synchronized void setGameStartMessage() {
+		start = true;
+		newInfo = true;
+		
+	}
+	
+	public synchronized boolean isStart() {
+		return start;
 	}
 	
 }

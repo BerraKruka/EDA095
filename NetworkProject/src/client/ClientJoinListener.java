@@ -1,6 +1,7 @@
 package client;
 
 import networkInfo.AckResponse;
+import networkInfo.GameStartMessage;
 import networkInfo.JoinAckResponse;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -25,6 +26,8 @@ public class ClientJoinListener extends Listener{
            }else if(object instanceof AckResponse){
         	   AckResponse response = (AckResponse)object;              
         	   monitor.setAckRespons(response);
+           }else if(object instanceof GameStartMessage) {
+        	   monitor.setGameStartMessage();
            }
         }
      

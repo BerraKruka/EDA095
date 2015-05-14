@@ -2,6 +2,7 @@ package gameState;
 
 import java.io.IOException;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
@@ -29,8 +30,7 @@ public class ServerScreen extends BasicGameState{
 	    playerID = new TextField(container,StateUtils.font,200,60,200,20);
 		StateUtils.setTextFieldAttr(playerID,"Noway",input);
 		playerID.setCursorPos(200);
-
-		
+	
 	}
 	
 

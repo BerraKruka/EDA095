@@ -23,6 +23,7 @@ public class NetworkUtils {
 	public static void registerPackages(Kryo kryo){
 		kryo.register(JoinRequest.class);
 		kryo.register(JoinAckResponse.class);
+		kryo.register(GameStartMessage.class);
 		kryo.register(PlayerAction.class);
 		kryo.register(String[].class);
 	}
@@ -49,5 +50,4 @@ public class NetworkUtils {
 
 		return client;
 	}
-
 }

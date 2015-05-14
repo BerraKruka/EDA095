@@ -8,6 +8,10 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="NetworkProject/lwjgl-2.9.3/native/windows"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Nguyen/java-lib/kryonet-2.21/jars/production/onejar/kryonet-2.21-all.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carl/Desktop/LTH/eda095/kryonet/onejar/kryonet-2.21-all.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carl/Desktop/LTH/eda095/Slick2D-libs/lib/jinput.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carl/Desktop/LTH/eda095/Slick2D-libs/lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carl/Desktop/LTH/eda095/Slick2D-libs/lib/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carl/Desktop/LTH/eda095/Slick2D-libs/lib/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

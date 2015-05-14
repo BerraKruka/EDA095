@@ -24,7 +24,7 @@ public class TestOriginalServerAndClient {
 
 		kryoConfig(server.getKryo());
 
-		server.bind(20000, 20001);
+		server.bind(20003, 20004);
 		server.addListener(new ServerListener());
 		System.out.println("server is running");
 
@@ -36,7 +36,7 @@ public class TestOriginalServerAndClient {
 
 		kryoConfig(client.getKryo());
 
-		client.connect(5000, "localhost", 20000, 20001);
+		client.connect(5000, "localhost", 20003, 20004);
 
 		JoinRequest request = new JoinRequest();
 		request.id = "tuan";

@@ -5,12 +5,15 @@ import java.io.IOException;
 import networkInfo.JoinRequest;
 import networkInfo.NetworkUtils;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import client.ClientJoinListener;
 import client.ClientMonitor;
@@ -34,15 +37,15 @@ public class ClientWaitScreen extends BasicGameState{
 	private Client client;
 	private ClientMonitor clientMonitor;
 	
+	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-			
 			this.game = game;
-			
 			allPlayer = new TextField[4];
 			StateUtils.initPlayersTextField(container, allPlayer);
 	}
+	
 	public Client startClient(String name,String ip) throws IOException{
 			currentPlayerID = name;
 			clientMonitor = new ClientMonitor(currentPlayerID);
@@ -70,7 +73,13 @@ public class ClientWaitScreen extends BasicGameState{
 				for (int i = 0; i < nPlayers; i++) {
 					allPlayer[i].setText(currentPlayers[i]);
 				}
+				if(clientMonitor.isStart()) {
+					game.enterState(GameStart.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
+					System.out.println("rec start");
+				}
 			}
+			
+			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}	

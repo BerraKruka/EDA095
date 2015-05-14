@@ -18,12 +18,14 @@ public class BomberMan extends StateBasedGame{
     	ServerScreen hostGame = new ServerScreen();
     	ServerWaitScreen serverWait = new ServerWaitScreen();
     	ClientWaitScreen clientWait = new ClientWaitScreen();
+    	GameStart game = new GameStart();
     	// all the screen is to be register.
     	addState(menu);
     	addState(joinGame);
     	addState(hostGame);
     	addState(serverWait);
     	addState(clientWait);
+    	addState(game);
 
  
     }

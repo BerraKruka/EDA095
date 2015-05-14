@@ -31,9 +31,12 @@ public class ClientScreen extends BasicGameState{
 	    playerID = new TextField(container,StateUtils.font,200,60,200,20);
 		StateUtils.setTextFieldAttr(playerID,"Noway",input);
 		playerID.setCursorPos(200);
+		
+		
+//		message = new TextField(container,StateUtils.font,200,80,200,20);
+//		StateUtils.setTextFieldAttr(message,"localhost",input);
+		
 		hostIP = new TextField(container,StateUtils.font,200,80,200,20);
-		StateUtils.setTextFieldAttr(hostIP,"localhost",input);
-		hostIP = new TextField(container,StateUtils.font,200,100,200,20);
 		StateUtils.setTextFieldAttr(hostIP,"...",input);
 
 	}
@@ -51,7 +54,7 @@ public class ClientScreen extends BasicGameState{
         g.drawString("Host IP: ",50,80); 
         hostIP.render(container, g);
         
-        g.drawString("Message: ",50,100);
+      //  g.drawString("Message: ",50,100);
         
 	}
 
@@ -77,8 +80,9 @@ public class ClientScreen extends BasicGameState{
 			Client client = clientWait.startClient(name, ip);
 			ClientMonitor monitor = clientWait.getMonitor();
 			// this is to wait for a response after enter
-			message.setText("Attempt to Join Game");
+			//message.setText("Attempt to Join Game");
 			Thread.sleep(3000);
+			
 			// depends on the answer, we will do some different stuff
 			
 		} catch (IOException e) {
