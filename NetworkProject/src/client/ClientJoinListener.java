@@ -1,8 +1,10 @@
 package client;
 
 import networkInfo.AckResponse;
+import networkInfo.ActionMessage;
 import networkInfo.GameStartMessage;
 import networkInfo.JoinAckResponse;
+import networkInfo.PlayerAction;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -28,6 +30,12 @@ public class ClientJoinListener extends Listener{
         	   monitor.setAckRespons(response);
            }else if(object instanceof GameStartMessage) {
         	   monitor.setGameStartMessage();
+           }else if(object instanceof ActionMessage) {
+        	   ActionMessage serverResp = (ActionMessage)object;
+        	   monitor.setActionMessage();
+        	   monitor.setPlayerID(serverResp.playerID);
+        	   monitor.setAction(serverResp.action);
+        	   System.out.println(monitor.getCurrentPlayerID() + "fick ngt");
            }
         }
      

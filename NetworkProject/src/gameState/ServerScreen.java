@@ -16,6 +16,10 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import client.ClientMonitor;
+
+import com.esotericsoftware.kryonet.Client;
+
 public class ServerScreen extends BasicGameState{
 	public static final int ID = 21;
 	private StateBasedGame game;
@@ -60,7 +64,10 @@ public class ServerScreen extends BasicGameState{
     	ServerWaitScreen serverWait = (ServerWaitScreen) game.getState(ServerWaitScreen.ID);
     	try {
 			serverWait.startServer();
-			serverWait.startClient(playerID.getText());
+			serverWait.startClient(playerID.getText(), "localhost");
+			ClientMonitor monitor = serverWait.getMonitor();
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);

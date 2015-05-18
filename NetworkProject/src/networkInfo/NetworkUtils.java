@@ -25,6 +25,7 @@ public class NetworkUtils {
 		kryo.register(JoinAckResponse.class);
 		kryo.register(GameStartMessage.class);
 		kryo.register(PlayerAction.class);
+		kryo.register(ActionMessage.class);
 		kryo.register(String[].class);
 	}
 	

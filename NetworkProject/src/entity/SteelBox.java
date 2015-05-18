@@ -21,9 +21,7 @@ public class SteelBox extends GameEntity {
 	}
 	
 	public void draw(){
-		boxSprite.draw(	pos.x,
-						pos.y,
-						SteelBox.scale);
+		boxSprite.draw(	pos.x, pos.y,SteelBox.scale);
 		this.setPos(pos);
 	}
 

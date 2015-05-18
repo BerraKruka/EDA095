@@ -1,5 +1,8 @@
 package client;
 
+import entity.GameEntity;
+import entity.Player;
+import entity.Pos;
 import networkInfo.AckResponse;
 import networkInfo.JoinAckResponse;
 
@@ -15,6 +18,12 @@ public class ClientMonitor {
 	private boolean message;
 	
 	private boolean start;
+	
+	private boolean actionMsg;
+	
+	private String action;
+	private int playerID;
+	
 
 	// this will get determine where and who the player will appear
 
@@ -28,6 +37,7 @@ public class ClientMonitor {
 		currentPlayerNumber = -1;
 		newInfo = false;
 		start = false;
+		actionMsg = false;
 	}
 
 	private void extractCurrentPlayerNumber() {
@@ -40,6 +50,7 @@ public class ClientMonitor {
 			}
 		}
 	}
+
 	
 	public  synchronized void setJoinAckRespons(JoinAckResponse response) {
 		currentPlayers = response.currentPlayers;
@@ -80,12 +91,43 @@ public class ClientMonitor {
 	
 	public synchronized void setGameStartMessage() {
 		start = true;
-		newInfo = true;
-		
+		newInfo = true;	
+	}
+	
+	public synchronized void setActionMessage() {
+		actionMsg = true;
+		newInfo = true;		
+	}
+	
+	public synchronized boolean isAction() {
+		return actionMsg;
 	}
 	
 	public synchronized boolean isStart() {
 		return start;
+	}
+	
+	public synchronized void actionFinished() {
+		actionMsg = false;
+	}
+	
+	
+	public synchronized void setAction(String action) {
+		this.action = action;
+	}
+	
+
+	public synchronized String getAction() {
+		return action;
+	}
+	
+	public synchronized int getPlayerID(){
+		return playerID;
+	}
+	
+	
+	public synchronized void setPlayerID(int id) {
+		this.playerID = id;
 	}
 	
 }

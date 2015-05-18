@@ -60,10 +60,11 @@ public class ServerWaitScreen extends BasicGameState {
 
 	}
 
-	public void startClient(String name) throws IOException {
+	public Client startClient(String name, String ip) throws IOException {
 		currentPlayerID = name;
 		clientMonitor = new ClientMonitor(currentPlayerID);
-		client = NetworkUtils.setupClient(clientMonitor,"localhost");
+		client = NetworkUtils.setupClient(clientMonitor, ip);
+		return client;
 	}
 
 	@Override
@@ -98,31 +99,46 @@ public class ServerWaitScreen extends BasicGameState {
 		// TODO Auto-generated method stub
 		return ID;
 	}
-	
-	private void transitionHandler(){
-    	GameStart start = (GameStart) game.getState(GameStart.ID);
-    	server.sendToAllTCP(new GameStartMessage());
-    	System.out.println("send game start");
-    	/**try {
-					
+
+	private void transitionHandler() {
+		GameStart start = (GameStart) game.getState(GameStart.ID);
+		//anslutningen e redan fixad ---- bara skicka med server / client till nästa 	
+		
+		try {
+		//	start.setServer(server, serverMonitor);
+			start.setClient(client, clientMonitor);
+			server.sendToAllTCP(new GameStartMessage());
 		} catch (IOException e) {
+			
 			e.printStackTrace();
 			System.exit(1);
-		}**/
+		} 
+	
+			
+
+		
+	}
+
+	public void keyReleased(int key, char c) {
+		switch (key) {
+		case Input.KEY_ENTER:
+			transitionHandler();
+			game.enterState(GameStart.ID, new FadeOutTransition(Color.black),
+					new FadeInTransition(Color.black));
+			break;
+		case Input.KEY_ESCAPE:
+			game.enterState(Menu.ID, new FadeOutTransition(Color.black),
+					new FadeInTransition(Color.black));
+			break;
+		default:
+			break;
+		}
 	}
 	
-	 public void keyReleased(int key, char c) {
-	        switch(key) {        
-	        case Input.KEY_ENTER:
-	        	transitionHandler();
-	        	game.enterState(GameStart.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-	        	break;
-	        case Input.KEY_ESCAPE:
-	        	game.enterState(Menu.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-	            break;
-	        default:
-	            break;
-	        }
-	    }
+
+	public ClientMonitor getMonitor() {
+		// TODO Auto-generated method stub
+		return clientMonitor;
+	}
 
 }

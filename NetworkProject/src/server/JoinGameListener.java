@@ -1,8 +1,10 @@
 package server;
 
 import networkInfo.AckResponse;
+import networkInfo.ActionMessage;
 import networkInfo.JoinAckResponse;
 import networkInfo.JoinRequest;
+import networkInfo.PlayerAction;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -28,6 +30,12 @@ public class JoinGameListener extends Listener {
 			Server server = (Server) connection.getEndPoint();
 			server.sendToAllTCP(response);
 			}
+		}else if(object instanceof ActionMessage) {
+			Server server = (Server) connection.getEndPoint();
+			System.out.println("Servern får action message från clienten när han rör sig");
+			ActionMessage playerAction = (ActionMessage) object;
+			// vill då skicka till alla klienter att dom ska röra sig.
+			server.sendToAllUDP(playerAction);
 		}
 	}
 	

@@ -20,7 +20,7 @@ import com.esotericsoftware.kryonet.Client;
 public class ClientScreen extends BasicGameState{
 	public static final int ID = 1;
 	private StateBasedGame game;
-	private TextField playerID, hostIP, message;
+	private TextField playerID, hostIP;
 	
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -29,7 +29,7 @@ public class ClientScreen extends BasicGameState{
 	    this.game = game;
 	    Boolean input = true;
 	    playerID = new TextField(container,StateUtils.font,200,60,200,20);
-		StateUtils.setTextFieldAttr(playerID,"Noway",input);
+		StateUtils.setTextFieldAttr(playerID,"hej",input);
 		playerID.setCursorPos(200);
 		
 		

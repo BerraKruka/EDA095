@@ -23,34 +23,32 @@ import com.esotericsoftware.kryonet.Server;
 
 import entity.Player;
 
-public class ClientWaitScreen extends BasicGameState{
+public class ClientWaitScreen extends BasicGameState {
 	public final static int ID = 23;
 	private StateBasedGame game;
-	
+
 	private TextField[] allPlayer;
 	private int nPlayers;
 	private String currentPlayerID;
 	private int currentPlayerNumber;
 	private String[] currentPlayers;
-	
-	
+
 	private Client client;
 	private ClientMonitor clientMonitor;
-	
-	
+
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-			this.game = game;
-			allPlayer = new TextField[4];
-			StateUtils.initPlayersTextField(container, allPlayer);
+		this.game = game;
+		allPlayer = new TextField[4];
+		StateUtils.initPlayersTextField(container, allPlayer);
 	}
-	
-	public Client startClient(String name,String ip) throws IOException{
-			currentPlayerID = name;
-			clientMonitor = new ClientMonitor(currentPlayerID);
-			client = NetworkUtils.setupClient(clientMonitor,ip);
-			return client;
+
+	public Client startClient(String name, String ip) throws IOException {
+		currentPlayerID = name;
+		clientMonitor = new ClientMonitor(currentPlayerID);
+		client = NetworkUtils.setupClient(clientMonitor, ip);
+		return client;
 	}
 
 	@Override
@@ -73,16 +71,24 @@ public class ClientWaitScreen extends BasicGameState{
 				for (int i = 0; i < nPlayers; i++) {
 					allPlayer[i].setText(currentPlayers[i]);
 				}
-				if(clientMonitor.isStart()) {
-					game.enterState(GameStart.ID, new FadeOutTransition(Color.black), new FadeInTransition(Color.black));
-					System.out.println("rec start");
+				if (clientMonitor.isStart()) {
+					GameStart start = (GameStart) game.getState(GameStart.ID);
+
+					// skicka med clienten och starta spelet
+					try {
+						start.setClient(client, clientMonitor);
+						game.enterState(GameStart.ID, new FadeOutTransition(
+								Color.black), new FadeInTransition(Color.black));
+					} catch (IOException e) {
+						e.printStackTrace();
+						System.exit(1);
+					}
 				}
 			}
-			
-			
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	@Override
@@ -90,10 +96,10 @@ public class ClientWaitScreen extends BasicGameState{
 		// TODO Auto-generated method stub
 		return ID;
 	}
+
 	public ClientMonitor getMonitor() {
 		// TODO Auto-generated method stub
 		return clientMonitor;
 	}
-	
 
 }

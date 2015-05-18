@@ -1,14 +1,17 @@
 package server;
 
+import networkInfo.ActionMessage;
 import networkInfo.GameStartMessage;
 import networkInfo.JoinAckResponse;
 
 public class ServerMonitor {
 	private JoinAckResponse response;
 	private GameStartMessage start;
+	private ActionMessage action;
 	public ServerMonitor(){
 		start = new GameStartMessage();
 		response = new JoinAckResponse();
+		action = new ActionMessage();
 		response.currentPlayers = new String[4];
 		response.number = 0;
 	}
