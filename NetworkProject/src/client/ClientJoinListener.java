@@ -35,7 +35,7 @@ public class ClientJoinListener extends Listener{
         	   monitor.setActionMessage();
         	   monitor.setPlayerID(serverResp.playerID);
         	   monitor.setAction(serverResp.action);
-        	   System.out.println(monitor.getCurrentPlayerID() + "fick ngt");
+        	//   System.out.println(monitor.getCurrentPlayerID() + "fick ngt");
            }
         }
      

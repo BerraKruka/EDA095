@@ -32,7 +32,6 @@ public class JoinGameListener extends Listener {
 			}
 		}else if(object instanceof ActionMessage) {
 			Server server = (Server) connection.getEndPoint();
-			System.out.println("Servern får action message från clienten när han rör sig");
 			ActionMessage playerAction = (ActionMessage) object;
 			// vill då skicka till alla klienter att dom ska röra sig.
 			server.sendToAllUDP(playerAction);

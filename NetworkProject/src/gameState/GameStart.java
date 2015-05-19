@@ -41,21 +41,25 @@ public class GameStart extends BasicGameState {
 	private Player player1;
 	private Player player2;
 	private Player player3;
-	private SteelBox box;
-	private LinkedList<SteelBox> steelBoxes;
+	private LinkedList<WoodBox> boxes;
+	private LinkedList<Bomb> bombs;
 	private GameEntity[][] positions;
+	private WoodBox box;
+	private Bomb bomb;
+
+	private boolean[][] blocked;
+	private static final int SIZE = 34;
 
 	private Server server;
-	private Client client;
-
 	private ServerMonitor serverMonitor;
+	private Client client;
 	private ClientMonitor clientMonitor;
 
-
 	public GameStart() throws SlickException {
-		grassMap = new TiledMap("data/grassmap.tmx");
+		grassMap = new TiledMap("data/EDA095_map.tmx");
 		positions = new GameEntity[grassMap.getWidth()][grassMap.getHeight()];
-		steelBoxes = new LinkedList<SteelBox>();
+		boxes = new LinkedList<WoodBox>();
+		bombs = new LinkedList<Bomb>();
 	}
 
 	public void setServer(Server serverName, ServerMonitor monitor)
@@ -73,29 +77,181 @@ public class GameStart extends BasicGameState {
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
+		
 		// begin temp code
 		this.game = game;
-		Pos pos = new Pos(1, 1);
-		float size = GameEntity.SIZE;
 
-		player0 = new Player(pos, size, size, positions);
+		
+		Pos pos = new Pos(1, 1);
+		float size =1;
+
+		player0 = new Player(pos, size, size, positions, 0);
 		player0.initAnimation();
 
-		Pos pos1 = new Pos(1, 8);
+		Pos pos1 = new Pos(1, 18);
 
-		player1 = new Player(pos1, size, size, positions);
+		player1 = new Player(pos1, size, size, positions, 1);
 		player1.initAnimation();
 
-		Pos pos2 = new Pos(8, 1);
-		player2 = new Player(pos2, size, size, positions);
+		Pos pos2 = new Pos(18, 1);
+		player2 = new Player(pos2, size, size, positions, 2);
 		player2.initAnimation();
 
-		Pos pos3 = new Pos(8, 8);
+		Pos pos3 = new Pos(18, 18);
 
-		player3 = new Player(pos3, size, size, positions);
+		player3 = new Player(pos3, size, size, positions, 3);
 		player3.initAnimation();
 
+		blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
+		for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
+
+			for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
+
+				int tileID = grassMap.getTileId(xAxis, yAxis, 0);
+				String value = grassMap.getTileProperty(tileID, "blocked",
+						"false");
+				if (value.equals("true")) {
+					blocked[xAxis][yAxis] = true;
+				}
+			}
+		}
+		placeBoxes();
+		
+
 	}
+
+	private void placeBoxes() {
+		Pos pos;
+		
+		pos = new Pos(6, 1);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[6][1] = true;
+		boxes.add(box);
+		
+		pos = new Pos(6, 2);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[6][2] = true;
+		boxes.add(box);
+		
+		pos = new Pos(6, 3);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[6][3] = true;
+		boxes.add(box);
+		
+		pos = new Pos(6, 4);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[6][4] = true;
+		boxes.add(box);
+		
+		
+		pos = new Pos(13, 1);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[13][1] = true;
+		boxes.add(box);
+		
+		pos = new Pos(13, 2);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[13][2] = true;
+		boxes.add(box);
+		
+		pos = new Pos(13, 3);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[13][3] = true;
+		boxes.add(box);
+		
+		pos = new Pos(13, 4);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[13][4] = true;
+		boxes.add(box);
+		
+		
+		pos = new Pos(6, 15);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[6][15] = true;
+		boxes.add(box);
+		
+		pos = new Pos(6, 16);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[6][16] = true;
+		boxes.add(box);
+		
+		pos = new Pos(6, 17);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[6][17] = true;
+		boxes.add(box);
+		
+		pos = new Pos(6, 18);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[6][18] = true;
+		boxes.add(box);
+		
+		
+		pos = new Pos(13, 15);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[13][15] = true;
+		boxes.add(box);
+		
+		pos = new Pos(13, 16);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[13][16] = true;
+		boxes.add(box);
+		
+		pos = new Pos(13, 17);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[13][17] = true;
+		boxes.add(box);
+		
+		pos = new Pos(13, 18);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[13][18] = true;
+		boxes.add(box);
+		
+		
+		
+		pos = new Pos(1, 10);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[1][10] = true;
+		boxes.add(box);
+		
+		pos = new Pos(2, 10);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[2][10] = true;
+		boxes.add(box);
+	
+		
+		pos = new Pos(17, 9);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[17][9] = true;
+		boxes.add(box);
+		
+		pos = new Pos(18, 9);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[18][9] = true;
+		boxes.add(box);
+		
+		
+		pos = new Pos(10, 10);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[10][10] = true;
+		boxes.add(box);
+		
+		pos = new Pos(9, 10);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[9][10] = true;
+		boxes.add(box);
+		
+		pos = new Pos(9, 9);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[9][9] = true;
+		boxes.add(box);
+		
+		pos = new Pos(10, 9);
+		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+		blocked[10][9] = true;
+		boxes.add(box);
+		
+	}
+
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
@@ -105,12 +261,13 @@ public class GameStart extends BasicGameState {
 		player1.draw();
 		player2.draw();
 		player3.draw();
-		// box.draw();
+		for (WoodBox bx : boxes) {
+			bx.draw();
+		}
 	}
 
 	private void readPacket(float delta) {
 		if (clientMonitor.isAction()) {
-
 			int playerId = clientMonitor.getPlayerID();
 			switch (playerId) {
 			case 0:
@@ -135,16 +292,16 @@ public class GameStart extends BasicGameState {
 		String command = clientMonitor.getAction();
 		switch (command) {
 		case "UP":
-			player.move(Player.UP, delta);
+			player.move(Player.UP, delta, blocked);
 			break;
 		case "DOWN":
-			player.move(Player.DOWN, delta);
+			player.move(Player.DOWN, delta, blocked);
 			break;
 		case "LEFT":
-			player.move(Player.LEFT, delta);
+			player.move(Player.LEFT, delta, blocked);
 			break;
 		case "RIGHT":
-			player.move(Player.RIGHT, delta);
+			player.move(Player.RIGHT, delta, blocked);
 			break;
 		}
 	}
@@ -153,7 +310,7 @@ public class GameStart extends BasicGameState {
 	public void update(GameContainer container, StateBasedGame game, int d)
 			throws SlickException {
 		Input input = container.getInput();
-		float delta = d * 0.1f;
+		float delta = d * 0.2f;
 		// action for player in here
 
 		if (input.isKeyDown(Input.KEY_UP)) {
@@ -206,7 +363,6 @@ public class GameStart extends BasicGameState {
 		readPacket(delta);
 
 	}
-
 
 	@Override
 	public int getID() {

@@ -10,7 +10,7 @@ public class Main {
 	public static AppGameContainer initGame() throws SlickException {
 		AppGameContainer game = new AppGameContainer(new BomberMan("Pew Pew "));
 		game.setMaximumLogicUpdateInterval(60);
-		game.setDisplayMode(640, 480, false);
+		game.setDisplayMode(680, 680, false);
 		game.setTargetFrameRate(60);
 		game.setAlwaysRender(true);
 		game.setVSync(true);
