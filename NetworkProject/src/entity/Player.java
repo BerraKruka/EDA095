@@ -25,6 +25,7 @@ public class Player extends GameEntity {
 		this.positions = positions;
 		this.playerNumber = playerNumber;
 		dead = false;
+		
 	}
 
 	public void initAnimation() throws SlickException {
@@ -153,13 +154,52 @@ public class Player extends GameEntity {
 		relY = (int) y /34;
 		switch (direction) {
 		case (Player.RIGHT):
-			return blocked[relX + 1][relY] || blocked[relX + 1][relY + 1];
+			
+			if(positions[relX+1][relY] != null){
+				return this.boundingBox.intersects(positions[relX+1][relY].getBoundingBox());
+			}
+			else if(positions[relX+1][relY+1] != null){
+			return this.boundingBox.intersects(positions[relX+1][relY+1].getBoundingBox());
+		}else {
+			return false;
+		}
+			
+			//return blocked[relX + 1][relY] || blocked[relX + 1][relY + 1];
 		case (Player.LEFT):
-			return blocked[relX][relY] || blocked[relX][relY + 1];
+			
+			if(positions[relX][relY] != null){
+				return this.boundingBox.intersects(positions[relX][relY].getBoundingBox());
+			}
+			else if(positions[relX][relY+1] != null){
+			return this.boundingBox.intersects(positions[relX][relY+1].getBoundingBox());
+		}else {
+			return false;
+		}
+			
+			//return blocked[relX][relY] || blocked[relX][relY + 1];
 		case (Player.DOWN):
-			return blocked[relX][relY + 1] || blocked[relX + 1][relY + 1];
+			if(positions[relX][relY+1] != null){
+				return this.boundingBox.intersects(positions[relX][relY+1].getBoundingBox()); 
+			}
+			else if(positions[relX+1][relY+1] != null){
+			return this.boundingBox.intersects(positions[relX+1][relY+1].getBoundingBox()); 
+		}else {
+			return false;
+		}
+			
+			//return blocked[relX][relY + 1] || blocked[relX + 1][relY + 1];
 		case (Player.UP):
-			return blocked[relX][relY] || blocked[relX + 1][relY];
+			
+			if(positions[relX][relY] != null){
+				return this.boundingBox.intersects(positions[relX][relY].getBoundingBox());
+			}
+			else if(positions[relX+1][relY] != null){
+			return this.boundingBox.intersects(positions[relX+1][relY].getBoundingBox());
+		}else {
+			return false;
+		}
+			
+			//return blocked[relX][relY] || blocked[relX + 1][relY];
 		}
 
 		return false;

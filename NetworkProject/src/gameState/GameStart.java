@@ -3,34 +3,33 @@ package gameState;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Random;
 
 import networkInfo.ActionMessage;
 import networkInfo.BombMessage;
-import networkInfo.NetworkUtils;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
-import server.JoinGameListener;
 import server.ServerMonitor;
 import client.ClientMonitor;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
 
-import entity.*;
+import entity.Bomb;
+import entity.GameEntity;
+import entity.Player;
+import entity.Pos;
+import entity.WoodBox;
 
 public class GameStart extends BasicGameState {
 	private TiledMap grassMap;
@@ -57,6 +56,7 @@ public class GameStart extends BasicGameState {
 	private ServerMonitor serverMonitor;
 	private Client client;
 	private ClientMonitor clientMonitor;
+	private Shape shape;
 
 	public GameStart() throws SlickException {
 		grassMap = new TiledMap("data/test.tmx");
@@ -64,6 +64,7 @@ public class GameStart extends BasicGameState {
 		boxes = new LinkedList<WoodBox>();
 		bombs = new LinkedList<Bomb>();
 		players = new ArrayList<Player>();
+		
 	}
 
 	public void setServer(Server serverName, ServerMonitor monitor)
@@ -120,6 +121,7 @@ public class GameStart extends BasicGameState {
 						"false");
 				if (value.equals("true")) {
 					blocked[xAxis][yAxis] = true;
+					positions[xAxis][yAxis] = new WoodBox(new Pos(xAxis, yAxis), 34,34, 1);
 				}
 			}
 		}
@@ -127,130 +129,130 @@ public class GameStart extends BasicGameState {
 
 	}
 
-	private void placeBoxes() {
-		Pos pos;
-
-		pos = new Pos(6, 1);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[6][1] = true;
-		boxes.add(box);
-
-		pos = new Pos(6, 2);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[6][2] = true;
-		boxes.add(box);
-
-		pos = new Pos(6, 3);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[6][3] = true;
-		boxes.add(box);
-
-		pos = new Pos(6, 4);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[6][4] = true;
-		boxes.add(box);
-
-		pos = new Pos(13, 1);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[13][1] = true;
-		boxes.add(box);
-
-		pos = new Pos(13, 2);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[13][2] = true;
-		boxes.add(box);
-
-		pos = new Pos(13, 3);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[13][3] = true;
-		boxes.add(box);
-
-		pos = new Pos(13, 4);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[13][4] = true;
-		boxes.add(box);
-
-		pos = new Pos(6, 15);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[6][15] = true;
-		boxes.add(box);
-
-		pos = new Pos(6, 16);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[6][16] = true;
-		boxes.add(box);
-
-		pos = new Pos(6, 17);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[6][17] = true;
-		boxes.add(box);
-
-		pos = new Pos(6, 18);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[6][18] = true;
-		boxes.add(box);
-
-		pos = new Pos(13, 15);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[13][15] = true;
-		boxes.add(box);
-
-		pos = new Pos(13, 16);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[13][16] = true;
-		boxes.add(box);
-
-		pos = new Pos(13, 17);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[13][17] = true;
-		boxes.add(box);
-
-		pos = new Pos(13, 18);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[13][18] = true;
-		boxes.add(box);
-
-		pos = new Pos(1, 10);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[1][10] = true;
-		boxes.add(box);
-
-		pos = new Pos(2, 10);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[2][10] = true;
-		boxes.add(box);
-
-		pos = new Pos(17, 9);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[17][9] = true;
-		boxes.add(box);
-
-		pos = new Pos(18, 9);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[18][9] = true;
-		boxes.add(box);
-
-		pos = new Pos(10, 10);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[10][10] = true;
-		boxes.add(box);
-
-		pos = new Pos(9, 10);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[9][10] = true;
-		boxes.add(box);
-
-		pos = new Pos(9, 9);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[9][9] = true;
-		boxes.add(box);
-
-		pos = new Pos(10, 9);
-		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
-		blocked[10][9] = true;
-		boxes.add(box);
-
-	}
+//	private void placeBoxes() {
+//		Pos pos;
+//
+//		pos = new Pos(6, 1);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][1] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 2);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][2] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 3);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][3] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 4);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][4] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 1);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][1] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 2);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][2] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 3);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][3] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 4);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][4] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 15);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][15] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 16);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][16] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 17);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][17] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 18);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][18] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 15);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][15] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 16);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][16] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 17);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][17] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 18);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][18] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(1, 10);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[1][10] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(2, 10);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[2][10] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(17, 9);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[17][9] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(18, 9);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[18][9] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(10, 10);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[10][10] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(9, 10);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[9][10] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(9, 9);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[9][9] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(10, 9);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[10][9] = true;
+//		boxes.add(box);
+//
+//	}
 
 	private void die(Bomb bomb, Player player) {
 		if (bomb.isExploaded()) {
@@ -303,6 +305,7 @@ public class GameStart extends BasicGameState {
 			if(players.get(i).isDead()) {
 				players.remove(players.get(i));
 			}else {
+				
 				players.get(i).draw();
 			}
 		}

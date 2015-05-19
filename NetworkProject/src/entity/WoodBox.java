@@ -2,12 +2,14 @@ package entity;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 public class WoodBox extends GameEntity {
 //	public final static float scale = 0.20f;
 	public final static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
 	private Image boxSprite;
 	private Pos pos;
+
 	public WoodBox(Pos pos, float width, float height, int direction) {
 		super(pos, width, height);
 		this.pos = pos;
@@ -17,6 +19,7 @@ public class WoodBox extends GameEntity {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		
 		
 	}
 	
