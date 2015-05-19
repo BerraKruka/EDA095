@@ -114,6 +114,9 @@ public class ClientMonitor {
 	
 	public synchronized void actionFinished() {
 		actionMsg = false;
+	}
+	
+	public synchronized void bombFinsihed() {
 		bomb = false;
 	}
 	
@@ -131,10 +134,10 @@ public class ClientMonitor {
 		return playerID;
 	}
 	
-	
 	public synchronized void setPlayerID(int id) {
 		this.playerID = id;
 	}
+
 	
 	public synchronized void setBomb() {
 		bomb = true;
@@ -142,14 +145,6 @@ public class ClientMonitor {
 	
 	public synchronized boolean isBomb() {
 		return bomb;
-	}
-	
-	public synchronized void setBombPos(Pos pos) {
-		bombPos = pos;
-	}
-	
-	public synchronized Pos getBombPos() {
-		return bombPos;
 	}
 	
 }

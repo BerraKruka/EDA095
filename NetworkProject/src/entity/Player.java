@@ -15,13 +15,16 @@ public class Player extends GameEntity {
 	private Image[] movementDown;
 	private Image[] movementLeft;
 	private Image[] movementRight;
-
+	private int relX,relY;
+	private boolean dead;
+	
 	public Player(Pos pos, float width, float height, GameEntity[][] positions,
 			int playerNumber) {
 		super(pos, width, height);
 		this.pos = pos;
 		this.positions = positions;
 		this.playerNumber = playerNumber;
+		dead = false;
 	}
 
 	public void initAnimation() throws SlickException {
@@ -92,6 +95,13 @@ public class Player extends GameEntity {
 		playerSprite.draw(pos.x, pos.y);
 	}
 
+	public boolean isDead() {
+		return dead;
+	}
+	
+	public void setDead() {
+		dead = true;
+	}
 	private Animation getDirection(int direction) {
 		switch (direction) {
 		case Player.DOWN:
@@ -139,8 +149,8 @@ public class Player extends GameEntity {
 	}
 
 	private boolean isBlocked(int direction, float x, float y, boolean[][]  blocked) {
-		int relX = (int) x / 34;
-		int relY = (int) y / 34;
+		relX = (int) x / 34;
+		relY = (int) y / 34;
 		switch (direction) {
 		case (Player.RIGHT):
 			return blocked[relX + 1][relY] || blocked[relX + 1][relY + 1];
@@ -156,7 +166,17 @@ public class Player extends GameEntity {
 	}
 
 	public Pos getPos() {
+		Pos pos = new Pos(getX(),getY());
 		return pos;
+	}
+	
+	public int getX() {
+		return (int) pos.getX() / 34;
+	}
+	
+	public int getY() {
+		return (int) pos.getY() / 34;
+		
 	}
 
 }

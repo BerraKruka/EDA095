@@ -23,11 +23,11 @@ public class Pos {
 		return new Pos(x + deltaX, y + deltaY);
 	}
 
-	public float getX() {
-		return x;
+	public int getX() {
+		return (int) x;
 	}
 
-	public float getY() {
-		return y;
+	public int getY() {
+		return (int) y;
 	}
 }
