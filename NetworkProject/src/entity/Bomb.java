@@ -22,7 +22,7 @@ public class Bomb extends Entity {
 
 		this.timeToLive = timeToLive;
 		try {
-			bombImg = new Image("data/bomb.png");
+			bombImg = new Image("data/bomb1.png");
 			bombExplode = new Image("data/fire.png");
 
 		} catch (SlickException e) {
