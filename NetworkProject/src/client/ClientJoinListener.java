@@ -2,6 +2,7 @@ package client;
 
 import networkInfo.AckResponse;
 import networkInfo.ActionMessage;
+import networkInfo.BombMessage;
 import networkInfo.GameStartMessage;
 import networkInfo.JoinAckResponse;
 import networkInfo.PlayerAction;
@@ -35,7 +36,10 @@ public class ClientJoinListener extends Listener{
         	   monitor.setActionMessage();
         	   monitor.setPlayerID(serverResp.playerID);
         	   monitor.setAction(serverResp.action);
-        	//   System.out.println(monitor.getCurrentPlayerID() + "fick ngt");
+           }else if(object instanceof BombMessage) {
+        	   BombMessage bm = (BombMessage) object;
+        	   monitor.setBomb();
+        	   monitor.setPlayerID(bm.playerID);
            }
         }
      

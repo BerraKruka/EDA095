@@ -32,7 +32,7 @@ public class ServerScreen extends BasicGameState{
 	    this.game = game;
 	    boolean input = true;
 	    playerID = new TextField(container,StateUtils.font,200,60,200,20);
-		StateUtils.setTextFieldAttr(playerID,"Noway",input);
+		StateUtils.setTextFieldAttr(playerID,"Player1",input);
 		playerID.setCursorPos(200);
 	
 	}
@@ -64,7 +64,7 @@ public class ServerScreen extends BasicGameState{
     	ServerWaitScreen serverWait = (ServerWaitScreen) game.getState(ServerWaitScreen.ID);
     	try {
 			serverWait.startServer();
-			serverWait.startClient(playerID.getText(), "localhost");
+			serverWait.startClient(playerID.getText(), "192.168.0.119");
 			ClientMonitor monitor = serverWait.getMonitor();
 			
 			

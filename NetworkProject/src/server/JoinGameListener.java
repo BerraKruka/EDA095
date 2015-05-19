@@ -2,6 +2,7 @@ package server;
 
 import networkInfo.AckResponse;
 import networkInfo.ActionMessage;
+import networkInfo.BombMessage;
 import networkInfo.JoinAckResponse;
 import networkInfo.JoinRequest;
 import networkInfo.PlayerAction;
@@ -33,8 +34,11 @@ public class JoinGameListener extends Listener {
 		}else if(object instanceof ActionMessage) {
 			Server server = (Server) connection.getEndPoint();
 			ActionMessage playerAction = (ActionMessage) object;
-			// vill då skicka till alla klienter att dom ska röra sig.
 			server.sendToAllUDP(playerAction);
+		}else if(object instanceof BombMessage) {
+			Server server = (Server) connection.getEndPoint();
+			BombMessage bm = (BombMessage) object;
+			server.sendToAllUDP(bm);
 		}
 	}
 	

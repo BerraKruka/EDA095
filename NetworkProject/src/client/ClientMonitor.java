@@ -24,6 +24,10 @@ public class ClientMonitor {
 	private String action;
 	private int playerID;
 	
+	private boolean bomb;
+	
+	private Pos bombPos;
+	
 
 	// this will get determine where and who the player will appear
 
@@ -38,6 +42,7 @@ public class ClientMonitor {
 		newInfo = false;
 		start = false;
 		actionMsg = false;
+		bomb = false;
 	}
 
 	private void extractCurrentPlayerNumber() {
@@ -109,6 +114,7 @@ public class ClientMonitor {
 	
 	public synchronized void actionFinished() {
 		actionMsg = false;
+		bomb = false;
 	}
 	
 	
@@ -128,6 +134,22 @@ public class ClientMonitor {
 	
 	public synchronized void setPlayerID(int id) {
 		this.playerID = id;
+	}
+	
+	public synchronized void setBomb() {
+		bomb = true;
+	}
+	
+	public synchronized boolean isBomb() {
+		return bomb;
+	}
+	
+	public synchronized void setBombPos(Pos pos) {
+		bombPos = pos;
+	}
+	
+	public synchronized Pos getBombPos() {
+		return bombPos;
 	}
 	
 }

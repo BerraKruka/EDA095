@@ -27,6 +27,7 @@ public class NetworkUtils {
 		kryo.register(PlayerAction.class);
 		kryo.register(ActionMessage.class);
 		kryo.register(String[].class);
+		kryo.register(BombMessage.class);
 	}
 	
 	public static Server setupServer() throws IOException{

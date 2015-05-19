@@ -3,53 +3,43 @@ package entity;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tests.xml.Entity;
 
-public class Bomb extends GameEntity{
-	private float xPos, yPos;
-	private float range;
-	private long timeToLive;
-	private Animation bombSprite, bombLive, bombExploded;
-	
-	private static Pos pos;
+public class Bomb extends Entity {
+	private float x,y;
 	private float width, height;
-	
-	public Bomb(Pos pos, float width, float height, long timeToLive){
-		super(pos, width, height);
-		
-		
-		this.pos = pos;
+
+	private Image bombImg, bombExplode;
+
+	private long timeToLive, dropTime, explodeTime;
+
+	public final static int UP = 0, DOWN = 1, LEFT = 2, RIGHT = 3;
+
+	public Bomb(float x, float y, float width, float height, long timeToLive) {
+		this.x = x;
+		this.y = y;
 		this.width = width;
 		this.height = height;
-		
-		
+
 		this.timeToLive = timeToLive;
+		try {
+			bombImg = new Image("data/bomb1.png");
+			bombExplode = new Image("data/wood.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		dropTime = System.currentTimeMillis();
 	}
-	public void initAnimation() throws SlickException {
-		Image[] live = { new Image("data/bomb1.png"),new Image("data/bomb.png") };
-		Image[] exploded = { new Image("data/explode.png"),new Image("data/explode.png") };
-		
-		int[] duration = { 300, 300 };
-		/*
-		 * false variable means do not auto update the animation. By setting it
-		 * to false animation will update only when the user presses a key.
-		 */
-		bombLive = new Animation(live, duration, true);
-		bombExploded = new Animation(exploded, duration, true);
-		
-		bombSprite = bombLive;
-		
 
-		
-			//bombSprite = bombExploded;
-	
-	
-	}
 	public void draw() {
-		
-		bombSprite = bombLive;
-		bombSprite.draw(10, 10);
+		explodeTime = System.currentTimeMillis() - dropTime;
+		if(explodeTime > timeToLive) {
+			bombExplode.draw(x,y);
+		}else {
+		bombImg.draw(x,y);
+		}
+
 	}
-	
-
-
 }

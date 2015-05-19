@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import networkInfo.ActionMessage;
+import networkInfo.BombMessage;
 import networkInfo.NetworkUtils;
 
 import org.newdawn.slick.Animation;
@@ -77,13 +78,12 @@ public class GameStart extends BasicGameState {
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		
+
 		// begin temp code
 		this.game = game;
 
-		
 		Pos pos = new Pos(1, 1);
-		float size =1;
+		float size = 1;
 
 		player0 = new Player(pos, size, size, positions, 0);
 		player0.initAnimation();
@@ -116,142 +116,133 @@ public class GameStart extends BasicGameState {
 			}
 		}
 		placeBoxes();
-		
 
 	}
 
 	private void placeBoxes() {
 		Pos pos;
-		
+
 		pos = new Pos(6, 1);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[6][1] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(6, 2);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[6][2] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(6, 3);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[6][3] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(6, 4);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[6][4] = true;
 		boxes.add(box);
-		
-		
+
 		pos = new Pos(13, 1);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[13][1] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(13, 2);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[13][2] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(13, 3);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[13][3] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(13, 4);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[13][4] = true;
 		boxes.add(box);
-		
-		
+
 		pos = new Pos(6, 15);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[6][15] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(6, 16);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[6][16] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(6, 17);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[6][17] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(6, 18);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[6][18] = true;
 		boxes.add(box);
-		
-		
+
 		pos = new Pos(13, 15);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[13][15] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(13, 16);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[13][16] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(13, 17);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[13][17] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(13, 18);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[13][18] = true;
 		boxes.add(box);
-		
-		
-		
+
 		pos = new Pos(1, 10);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[1][10] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(2, 10);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[2][10] = true;
 		boxes.add(box);
-	
-		
+
 		pos = new Pos(17, 9);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[17][9] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(18, 9);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[18][9] = true;
 		boxes.add(box);
-		
-		
+
 		pos = new Pos(10, 10);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[10][10] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(9, 10);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[9][10] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(9, 9);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[9][9] = true;
 		boxes.add(box);
-		
+
 		pos = new Pos(10, 9);
 		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
 		blocked[10][9] = true;
 		boxes.add(box);
-		
-	}
 
+	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
@@ -264,11 +255,17 @@ public class GameStart extends BasicGameState {
 		for (WoodBox bx : boxes) {
 			bx.draw();
 		}
+
+		if (!bombs.isEmpty()) {
+			for (Bomb bomb : bombs) {
+				bomb.draw();
+			}
+		}
 	}
 
-	private void readPacket(float delta) {
+	private void readAction(float delta) {
+		int playerId = clientMonitor.getPlayerID();
 		if (clientMonitor.isAction()) {
-			int playerId = clientMonitor.getPlayerID();
 			switch (playerId) {
 			case 0:
 				readCommand(player0, delta);
@@ -283,9 +280,42 @@ public class GameStart extends BasicGameState {
 				readCommand(player3, delta);
 				break;
 			}
-
+			clientMonitor.actionFinished();
 		}
-		clientMonitor.actionFinished();
+
+	}
+	
+	private void readBomb() {
+		int playerId = clientMonitor.getPlayerID();
+		if (clientMonitor.isBomb()) {
+			switch (playerId) {
+			case 0:
+				System.out.println("Bomb player0");
+				dropBomb(player0);
+				break;
+			case 1:
+				System.out.println("Bomb player1");
+				dropBomb(player1);
+				break;
+			case 2:
+				System.out.println("Bomb player2");
+				dropBomb(player2);
+				break;
+			case 3:
+				System.out.println("Bomb player3");
+				dropBomb(player3);
+				break;
+			}
+			clientMonitor.actionFinished();
+		}
+
+	}
+
+	private void dropBomb(Player player) {
+		float x = player.getPos().getX();
+		float y = player.getPos().getY();
+		Bomb bomb = new Bomb(x, y, GameEntity.SIZE, GameEntity.SIZE, 3000);
+		bombs.add(bomb);
 	}
 
 	private void readCommand(Player player, float delta) {
@@ -312,6 +342,8 @@ public class GameStart extends BasicGameState {
 		Input input = container.getInput();
 		float delta = d * 0.2f;
 		// action for player in here
+		readAction(delta);
+		readBomb();
 
 		if (input.isKeyDown(Input.KEY_UP)) {
 			try {
@@ -341,7 +373,7 @@ public class GameStart extends BasicGameState {
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
 				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Interrupted");
 				e.printStackTrace();
 			}
 		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
@@ -351,16 +383,21 @@ public class GameStart extends BasicGameState {
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
 				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Interrupted");
 				e.printStackTrace();
 			}
 		}
-		// action for bomb :)
 		else if (input.isKeyDown(Input.KEY_SPACE)) {
-
+			try {
+				BombMessage bm = new BombMessage();
+				bm.playerID = clientMonitor.getPlayerNumber();
+				client.sendUDP(bm);
+			} catch (InterruptedException e) {
+				System.out.println("Interrupted");
+				e.printStackTrace();
+			}
+		
 		}
-
-		readPacket(delta);
 
 	}
 
