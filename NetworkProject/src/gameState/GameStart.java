@@ -87,23 +87,24 @@ public class GameStart extends BasicGameState {
 		this.game = game;
 
 		Pos pos = new Pos(1, 1);
-		float size = 1;
+		float width = 20;
+		float height = 10;
 
-		player0 = new Player(pos, size, size, positions, 0);
+		player0 = new Player(pos, width, height, positions, 0);
 		player0.initAnimation();
 
 		Pos pos1 = new Pos(1, 18);
 
-		player1 = new Player(pos1, size, size, positions, 1);
+		player1 = new Player(pos1, width, height, positions, 1);
 		player1.initAnimation();
 
 		Pos pos2 = new Pos(18, 1);
-		player2 = new Player(pos2, size, size, positions, 2);
+		player2 = new Player(pos2, width, height, positions, 2);
 		player2.initAnimation();
 
 		Pos pos3 = new Pos(18, 18);
 
-		player3 = new Player(pos3, size, size, positions, 3);
+		player3 = new Player(pos3, width, height, positions, 3);
 		player3.initAnimation();
 		
 		players.add(player0);
