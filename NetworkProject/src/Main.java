@@ -8,7 +8,7 @@ public class Main {
 	}
 	
 	public static AppGameContainer initGame() throws SlickException {
-		AppGameContainer game = new AppGameContainer(new BomberMan("Pew Pew "));
+		AppGameContainer game = new AppGameContainer(new BomberMan("BomberMan"));
 		game.setMaximumLogicUpdateInterval(10);
 		game.setDisplayMode(680, 680, false);
 		game.setTargetFrameRate(60);

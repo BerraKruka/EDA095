@@ -31,48 +31,48 @@ public class Player extends GameEntity {
 		int[] duration = {};
 		switch (playerNumber) {
 		case 0:
-			movementUp = new Image[] { new Image("data/fisher/fisher_up_1.png"),new Image("data/fisher/fisher_up_2.png"),
-					new Image("data/fisher/fisher_up_3.png")};
-			movementDown 	= new Image[]{ new Image("data/fisher/fisher_down_1.png"),new Image("data/fisher/fisher_down_2.png"),
-					new Image("data/fisher/fisher_down_3.png")};
-			movementLeft 	= new Image[] { new Image("data/fisher/fisher_left_1.png"),new Image("data/fisher/fisher_left_2.png"),
-					new Image("data/fisher/fisher_left_3.png")};
-			movementRight 	= new Image[]{ new Image("data/fisher/fisher_right_1.png"),new Image("data/fisher/fisher_right_2.png"),
-					new Image("data/fisher/fisher_right_3.png")};
+			movementUp = new Image[] { new Image("data/characters/african_up1.png"),new Image("data/characters/african_up2.png"),
+					new Image("data/characters/african_up3.png")};
+			movementDown 	= new Image[]{ new Image("data/characters/african_down1.png"),new Image("data/characters/african_down2.png"),
+					new Image("data/characters/african_down3.png")};
+			movementLeft 	= new Image[] { new Image("data/characters/african_left1.png"),new Image("data/characters/african_left2.png"),
+					new Image("data/characters/african_left3.png")};
+			movementRight 	= new Image[]{ new Image("data/characters/african_right1.png"),new Image("data/characters/african_right2.png"),
+					new Image("data/characters/african_right3.png")};
 			duration = new int[]{100,100,100};
 			break;
 		case 1:
-			movementUp = new Image[] { new Image("data/back.png"),
-					new Image("data/back1.png") };
-			movementDown = new Image[] { new Image("data/front.png"),
-					new Image("data/front1.png") };
-			movementLeft = new Image[] { new Image("data/left.png"),
-					new Image("data/left1.png") };
-			movementRight = new Image[] { new Image("data/right.png"),
-					new Image("data/right1.png") };
-			duration = new int[]{100,100};
+			movementUp = new Image[] { new Image("data/characters/german_up1.png"),new Image("data/characters/german_up2.png"),
+					new Image("data/characters/german_up3.png")};
+			movementDown 	= new Image[]{ new Image("data/characters/german_down1.png"),new Image("data/characters/german_down2.png"),
+					new Image("data/characters/german_down3.png")};
+			movementLeft 	= new Image[] { new Image("data/characters/german_left1.png"),new Image("data/characters/german_left2.png"),
+					new Image("data/characters/german_left3.png")};
+			movementRight 	= new Image[]{ new Image("data/characters/german_right1.png"),new Image("data/characters/german_right2.png"),
+					new Image("data/characters/german_right3.png")};
+			duration = new int[]{100,100,100};
 			break;
 		case 2:
-			movementUp = new Image[] { new Image("data/back.png"),
-					new Image("data/back1.png") };
-			movementDown = new Image[] { new Image("data/front.png"),
-					new Image("data/front1.png") };
-			movementLeft = new Image[] { new Image("data/left.png"),
-					new Image("data/left1.png") };
-			movementRight = new Image[] { new Image("data/right.png"),
-					new Image("data/right1.png") };
-			duration = new int[]{100,100};
+			movementUp = new Image[] { new Image("data/characters/indian_up1.png"),new Image("data/characters/indian_up2.png"),
+					new Image("data/characters/indian_up3.png")};
+			movementDown 	= new Image[]{ new Image("data/characters/indian_down1.png"),new Image("data/characters/indian_down2.png"),
+					new Image("data/characters/indian_down3.png")};
+			movementLeft 	= new Image[] { new Image("data/characters/indian_left1.png"),new Image("data/characters/indian_left2.png"),
+					new Image("data/characters/indian_left3.png")};
+			movementRight 	= new Image[]{ new Image("data/characters/indian_right1.png"),new Image("data/characters/indian_right2.png"),
+					new Image("data/characters/indian_right3.png")};
+			duration = new int[]{100,100,100};
 			break;
 		case 3:
-			movementUp = new Image[] { new Image("data/back.png"),
-					new Image("data/back1.png") };
-			movementDown = new Image[] { new Image("data/front.png"),
-					new Image("data/front1.png") };
-			movementLeft = new Image[] { new Image("data/left.png"),
-					new Image("data/left1.png") };
-			movementRight = new Image[] { new Image("data/right.png"),
-					new Image("data/right1.png") };
-			duration = new int[]{100,100};
+			movementUp = new Image[] { new Image("data/characters/chinese_up1.png"),new Image("data/characters/chinese_up2.png"),
+					new Image("data/characters/chinese_up3.png")};
+			movementDown 	= new Image[]{ new Image("data/characters/chinese_down1.png"),new Image("data/characters/chinese_down2.png"),
+					new Image("data/characters/chinese_down3.png")};
+			movementLeft 	= new Image[] { new Image("data/characters/chinese_left1.png"),new Image("data/characters/chinese_left2.png"),
+					new Image("data/characters/chinese_left3.png")};
+			movementRight 	= new Image[]{ new Image("data/characters/chinese_right1.png"),new Image("data/characters/chinese_right2.png"),
+					new Image("data/characters/chinese_right3.png")};
+			duration = new int[]{100,100,100};
 			break;
 		}
 
@@ -149,8 +149,8 @@ public class Player extends GameEntity {
 	}
 
 	private boolean isBlocked(int direction, float x, float y, boolean[][]  blocked) {
-		relX = (int) x / 34;
-		relY = (int) y / 34;
+		relX = (int) x /34;
+		relY = (int) y /34;
 		switch (direction) {
 		case (Player.RIGHT):
 			return blocked[relX + 1][relY] || blocked[relX + 1][relY + 1];

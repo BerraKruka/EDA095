@@ -59,7 +59,7 @@ public class GameStart extends BasicGameState {
 	private ClientMonitor clientMonitor;
 
 	public GameStart() throws SlickException {
-		grassMap = new TiledMap("data/EDA095_map.tmx");
+		grassMap = new TiledMap("data/test.tmx");
 		positions = new GameEntity[grassMap.getWidth()][grassMap.getHeight()];
 		boxes = new LinkedList<WoodBox>();
 		bombs = new LinkedList<Bomb>();
@@ -115,7 +115,7 @@ public class GameStart extends BasicGameState {
 
 			for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
 
-				int tileID = grassMap.getTileId(xAxis, yAxis, 0);
+				int tileID = grassMap.getTileId(xAxis, yAxis, 1);
 				String value = grassMap.getTileProperty(tileID, "blocked",
 						"false");
 				if (value.equals("true")) {
@@ -123,7 +123,7 @@ public class GameStart extends BasicGameState {
 				}
 			}
 		}
-		placeBoxes();
+	//	placeBoxes();
 
 	}
 
@@ -297,7 +297,8 @@ public class GameStart extends BasicGameState {
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
-		grassMap.render(0, 0);
+		grassMap.render(0, 0, 0);
+		grassMap.render(0, 0, 1);
 		for(int i = 0; i < players.size(); i++) {
 			if(players.get(i).isDead()) {
 				players.remove(players.get(i));
@@ -305,6 +306,7 @@ public class GameStart extends BasicGameState {
 				players.get(i).draw();
 			}
 		}
+		
 		
 	
 		for (WoodBox bx : boxes) {
@@ -322,6 +324,7 @@ public class GameStart extends BasicGameState {
 				}
 			}
 		}
+		grassMap.render(0, 0, 2);
 
 	}
 
