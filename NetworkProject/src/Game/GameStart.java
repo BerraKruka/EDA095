@@ -2,6 +2,7 @@ package Game;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import networkInfo.ActionMessage;
@@ -46,7 +47,7 @@ public class GameStart extends BasicGameState {
 
 	private boolean[][] blocked;
 
-	private ArrayList<Player> players;
+	private HashMap<Integer,Player> players;
 
 	private Client client;
 	private ClientMonitor clientMonitor;
@@ -58,7 +59,7 @@ public class GameStart extends BasicGameState {
 		positions = new GameEntity[grassMap.getWidth()][grassMap.getHeight()];
 		boxes = new LinkedList<WoodBox>();
 		bombs = new LinkedList<Bomb>();
-		players = new ArrayList<Player>();
+		players = new HashMap<Integer,Player>();
 		
 
 	}
@@ -96,10 +97,10 @@ public class GameStart extends BasicGameState {
 		player3 = new Player(pos3, width, height, positions, 3);
 		player3.initAnimation();
 
-		players.add(player0);
-		players.add(player1);
-		players.add(player2);
-		players.add(player3);
+		players.put(0,player0);
+		players.put(1,player1);
+		players.put(2,player2);
+		players.put(3,player3);
 
 		blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 		for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
@@ -136,7 +137,7 @@ public class GameStart extends BasicGameState {
 		if (!bombs.isEmpty()) {
 			for (Bomb bomb : bombs) {
 				bomb.draw();
-				for (Player player : players) {
+				for (Player player : players.values()) {
 					die(bomb, player);
 				}
 			}
@@ -328,7 +329,7 @@ public class GameStart extends BasicGameState {
 					deadPlayers++;
 					System.out.println("Player "+(player.getPlayerNumber()+1)+" is dead");
 					if(deadPlayers == 3){
-						for(Player p : players){
+						for(Player p : players.values()){
 							if(!p.isDead())
 							System.out.println("Player "+(p.getPlayerNumber()+1)+" has won the game!!!one!1111one!");
 						}

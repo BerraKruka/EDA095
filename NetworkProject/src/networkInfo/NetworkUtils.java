@@ -35,7 +35,7 @@ public class NetworkUtils {
 	public static Server setupServer() throws IOException{
 		Server server = new Server();
 		registerPackages(server.getKryo());
-		server.bind(TCPport,UDPport);
+		server.bind(TCPport);
 		return server;
 	}
 	
@@ -45,7 +45,7 @@ public class NetworkUtils {
 		registerPackages(client.getKryo());
 		
 		new Thread(client).start();
-		client.connect(5000, hostIP, TCPport,UDPport);
+		client.connect(5000, hostIP, TCPport);
 		
 		JoinRequest request = new JoinRequest();
 		request.id = monitor.getCurrentPlayerID();
