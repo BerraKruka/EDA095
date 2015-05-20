@@ -221,5 +221,8 @@ public class Player extends GameEntity {
 		return (int) pos.getY() / 34;
 		
 	}
+	public int getPlayerNumber(){
+		return playerNumber;
+	}
 
 }

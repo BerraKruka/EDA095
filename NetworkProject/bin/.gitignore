@@ -1,5 +1,6 @@
-/server
-/gameState
-/Game
-/client
-/networkInfo
+/Game/
+/entity/
+/Music.class
+/Song.class
+/data/
+/.DS_Store

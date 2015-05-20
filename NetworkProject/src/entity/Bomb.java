@@ -22,8 +22,8 @@ public class Bomb extends Entity {
 
 		this.timeToLive = timeToLive;
 		try {
-			bombImg = new Image("data/bomb1.png");
-			bombExplode = new Image("data/fire.png");
+			bombImg = new Image("data/bomb.png");
+			bombExplode = new Image("data/explosion.png");
 
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
@@ -38,9 +38,10 @@ public class Bomb extends Entity {
 		explodeTime = System.currentTimeMillis() - dropTime;
 		if (explodeTime > timeToLive) {
 			bombExplode.draw(x - 136, y - 136);
+			
 			isExp = true;
 		} else {
-			bombImg.draw(x, y-15);
+			bombImg.draw(x+5, y+10);
 			isExp = false;
 		}
 

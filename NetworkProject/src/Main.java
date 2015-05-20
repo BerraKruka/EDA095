@@ -16,6 +16,9 @@ public class Main {
 		game.setVSync(true);
 		game.setShowFPS(false);
 		game.start();
+		//Song song = new Song("data/music.ogg");
+		//song.play();
+		
 		return game;
 	}
 

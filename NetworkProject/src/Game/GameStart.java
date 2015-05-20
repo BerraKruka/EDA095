@@ -5,25 +5,21 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import networkInfo.ActionMessage;
-import networkInfo.BombMessage;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
-import server.ServerMonitor;
 import client.ClientMonitor;
 
 import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Server;
 
 import entity.Bomb;
 import entity.GameEntity;
@@ -54,6 +50,8 @@ public class GameStart extends BasicGameState {
 
 	private Client client;
 	private ClientMonitor clientMonitor;
+	
+	private int deadPlayers = 0;
 
 	public GameStart() throws SlickException {
 		grassMap = new TiledMap("data/test.tmx");
@@ -61,6 +59,7 @@ public class GameStart extends BasicGameState {
 		boxes = new LinkedList<WoodBox>();
 		bombs = new LinkedList<Bomb>();
 		players = new ArrayList<Player>();
+		
 
 	}
 
@@ -117,7 +116,7 @@ public class GameStart extends BasicGameState {
 				}
 			}
 		}
-		// placeBoxes();
+		
 
 	}
 
@@ -126,19 +125,14 @@ public class GameStart extends BasicGameState {
 			throws SlickException {
 		grassMap.render(0, 0, 0);
 		grassMap.render(0, 0, 1);
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i).isDead()) {
-				players.remove(players.get(i));
-			} else {
 
-				players.get(i).draw();
-			}
-		}
+		
 
 		for (WoodBox bx : boxes) {
 			bx.draw();
 		}
 
+		
 		if (!bombs.isEmpty()) {
 			for (Bomb bomb : bombs) {
 				bomb.draw();
@@ -147,12 +141,28 @@ public class GameStart extends BasicGameState {
 				}
 			}
 		}
+		
+		
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).isDead()) {
+				players.remove(players.get(i));
+			} else {
+				
+			//	grassMap.render(0, players.get(i).getY(), 1);
+				players.get(i).draw();
+			//	grassMap.render(0, grassMap.getHeight()-players.get(i).getY(), 1);
+			}
+		}
 
+		
+		
+		
+		
 		grassMap.render(0, 0, 2);
-
+		
 	}
 
-	private void readAction(float delta) throws InterruptedException {
+	private void readAction(float delta) throws InterruptedException, SlickException {
 		LinkedList<Integer> playerIDs = clientMonitor.getPlayerIDs();
 		LinkedList<String> actions = clientMonitor.getActions();
 		while (!actions.isEmpty()) {
@@ -162,7 +172,7 @@ public class GameStart extends BasicGameState {
 	}
 
 
-	private void dropBomb(Player player) {
+	private void dropBomb(Player player) throws SlickException {
 		if (!player.isDead()) {
 			float x = player.getPos().getX();
 			float y = player.getPos().getY();
@@ -172,7 +182,7 @@ public class GameStart extends BasicGameState {
 		}
 	}
 
-	private void readCommand(Player player, float delta, String action) {
+	private void readCommand(Player player, float delta, String action) throws SlickException {
 		if (!player.isDead()) {
 			// String command = clientMonitor.getAction();
 
@@ -201,8 +211,9 @@ public class GameStart extends BasicGameState {
 			throws SlickException {
 		Input input = container.getInput();
 
-		float delta = d * 0.2f;
-		// float delta = d * 1f;
+		// HASTIGHET
+		float delta = d * 0.12f;
+		
 		try {
 			readAction(delta);
 		} catch (InterruptedException e1) {
@@ -291,8 +302,8 @@ public class GameStart extends BasicGameState {
 			int y = bomb.getY();
 
 			deadList.add(new Pos(x, y));
-			deadList.add(new Pos(x + 1, y));
-			deadList.add(new Pos(x + 2, y));
+			deadList.add(new Pos(x + 34, y));
+			deadList.add(new Pos(x + 68, y));
 			deadList.add(new Pos(x + 3, y));
 			deadList.add(new Pos(x - 1, y));
 			deadList.add(new Pos(x - 2, y));
@@ -314,10 +325,19 @@ public class GameStart extends BasicGameState {
 				if ((dead.getX() / 34) == (player.getX())
 						&& (dead.getY() / 34) == player.getY()) {
 					player.setDead();
-				}
+					deadPlayers++;
+					System.out.println("Player "+(player.getPlayerNumber()+1)+" is dead");
+					if(deadPlayers == 3){
+						for(Player p : players){
+							if(!p.isDead())
+							System.out.println("Player "+(p.getPlayerNumber()+1)+" has won the game!!!one!1111one!");
+						}
+						
+					}
 			}
 
 		}
 
 	}
+}
 }
