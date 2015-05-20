@@ -16,6 +16,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import Game.GameStart;
+import client.ClientGameListener;
 import client.ClientJoinListener;
 import client.ClientMonitor;
 
@@ -31,11 +32,11 @@ public class ClientWaitScreen extends BasicGameState {
 	private TextField[] allPlayer;
 	private int nPlayers;
 	private String currentPlayerID;
-	private int currentPlayerNumber;
 	private String[] currentPlayers;
 
 	private Client client;
 	private ClientMonitor clientMonitor;
+	private ClientJoinListener joinListener;
 
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
@@ -48,7 +49,12 @@ public class ClientWaitScreen extends BasicGameState {
 	public Client startClient(String name, String ip) throws IOException {
 		currentPlayerID = name;
 		clientMonitor = new ClientMonitor(currentPlayerID);
+		
 		client = NetworkUtils.setupClient(clientMonitor, ip);
+		
+		joinListener = new ClientJoinListener(clientMonitor);
+		client.addListener(joinListener);
+
 		return client;
 	}
 
@@ -67,7 +73,6 @@ public class ClientWaitScreen extends BasicGameState {
 		try {
 			if (clientMonitor.newInfo()) {
 				nPlayers = clientMonitor.getNPlayers();
-				currentPlayerNumber = clientMonitor.getPlayerNumber();
 				currentPlayers = clientMonitor.getCurrentPlayers();
 				for (int i = 0; i < nPlayers; i++) {
 					allPlayer[i].setText(currentPlayers[i]);
@@ -78,6 +83,8 @@ public class ClientWaitScreen extends BasicGameState {
 					// skicka med clienten och starta spelet
 					try {
 						start.setClient(client, clientMonitor);
+						client.removeListener(joinListener);
+						client.addListener(new ClientGameListener(clientMonitor) );
 						game.enterState(GameStart.ID, new FadeOutTransition(
 								Color.black), new FadeInTransition(Color.black));
 					} catch (IOException e) {

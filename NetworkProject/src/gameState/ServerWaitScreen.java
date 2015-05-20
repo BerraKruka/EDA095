@@ -22,6 +22,7 @@ import server.JoinGameListener;
 import server.ServerMonitor;
 import server.ServerSender;
 import Game.GameStart;
+import client.ClientGameListener;
 import client.ClientJoinListener;
 import client.ClientMonitor;
 
@@ -45,7 +46,7 @@ public class ServerWaitScreen extends BasicGameState {
 
 	private Client client;
 	private ClientMonitor clientMonitor;
-
+	private ClientJoinListener clientJoinListener;
 	@Override
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
@@ -69,6 +70,10 @@ public class ServerWaitScreen extends BasicGameState {
 		currentPlayerID = name;
 		clientMonitor = new ClientMonitor(currentPlayerID);
 		client = NetworkUtils.setupClient(clientMonitor, ip);
+		
+		clientJoinListener = new ClientJoinListener(clientMonitor);
+		client.addListener(clientJoinListener);
+
 		return client;
 	}
 
@@ -107,6 +112,8 @@ public class ServerWaitScreen extends BasicGameState {
 
 	private void transitionHandler() {
 		GameStart start = (GameStart) game.getState(GameStart.ID);
+		client.removeListener(clientJoinListener);
+		client.addListener(new ClientGameListener(clientMonitor) );
 		//anslutningen e redan fixad ---- bara skicka med server / client till n�sta 	
 		
 		try {

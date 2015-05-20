@@ -44,7 +44,6 @@ public class NetworkUtils {
 		
 		registerPackages(client.getKryo());
 		
-		client.addListener(new ClientJoinListener(monitor));
 		new Thread(client).start();
 		client.connect(5000, hostIP, TCPport,UDPport);
 		

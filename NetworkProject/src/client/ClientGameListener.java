@@ -10,23 +10,23 @@ import networkInfo.PlayerAction;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-public class ClientGameListener extends Listener{
-		private ClientMonitor monitor;
-		
-		/**
-		 * This Listener is use only to join the game
-		 * @param clientMonitor
-		 */
-        public ClientGameListener(ClientMonitor clientMonitor) {
-        	this.monitor = clientMonitor;
-        }
+public class ClientGameListener extends Listener {
+	private ClientMonitor monitor;
 
-        
-		public void received (Connection connection, Object object) {
+	/**
+	 * This Listener is use only to join the game
+	 * 
+	 * @param clientMonitor
+	 */
+	public ClientGameListener(ClientMonitor clientMonitor) {
+		this.monitor = clientMonitor;
+	}
+
+	public void received (Connection connection, Object object) {
+			if(object instanceof ActionMessage){
         	   ActionMessage serverResp = (ActionMessage)object;
         	   monitor.setActionMessage();
-        	   monitor.setPlayerID(serverResp.playerID);
-        	   monitor.setAction(serverResp.action);
+        	   monitor.setActionAndPlayerID(serverResp.action,serverResp.playerID);
         }
-     
+		}
 }

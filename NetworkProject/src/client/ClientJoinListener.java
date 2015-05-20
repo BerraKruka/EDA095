@@ -35,7 +35,6 @@ public class ClientJoinListener extends Listener{
         	   ActionMessage serverResp = (ActionMessage)object;
         	   monitor.setActionMessage();
         	   monitor.setPlayerID(serverResp.playerID);
-        	   monitor.setAction(serverResp.action);
            }else if(object instanceof BombMessage) {
         	   BombMessage bm = (BombMessage) object;
         	   monitor.setBomb();

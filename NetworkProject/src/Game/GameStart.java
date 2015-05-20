@@ -153,28 +153,16 @@ public class GameStart extends BasicGameState {
 	}
 
 	private void readAction(float delta) throws InterruptedException {
-		int playerId = clientMonitor.getPlayerID();
-		if (clientMonitor.isAction()) {
-			switch (playerId) {
-			case 0:
-				readCommand(player0, delta);
-				break;
-			case 1:
-				readCommand(player1, delta);
-				break;
-			case 2:
-				readCommand(player2, delta);
-				break;
-			case 3:
-				readCommand(player3, delta);
-				break;
-			}
+		LinkedList<Integer> playerIDs = clientMonitor.getPlayerIDs();
+		LinkedList<String> actions = clientMonitor.getActions();
+		while (!actions.isEmpty()) {
+			readCommand(players.get(playerIDs.pop()), delta, actions.pop());	
 		}
 
 	}
 
 	private void readBomb() throws InterruptedException {
-		int playerId = clientMonitor.getPlayerID();
+/**		int playerId = clientMonitor.getPlayerID();
 		if (clientMonitor.isBomb()) {
 			switch (playerId) {
 			case 0:
@@ -195,7 +183,7 @@ public class GameStart extends BasicGameState {
 				break;
 			}
 
-		}
+		} */
 
 	}
 

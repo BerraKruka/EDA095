@@ -26,11 +26,14 @@ public class ClientMonitor {
 	private String action;
 	private LinkedList<String> actions;
 	
+	private LinkedList<Integer> playerIDs;
+	
+	
+	
 	private int playerID;
 	
 	private boolean bomb;
 	
-	private Pos bombPos;
 	
 
 	// this will get determine where and who the player will appear
@@ -48,6 +51,7 @@ public class ClientMonitor {
 		actionMsg = false;
 		bomb = false;
 		actions = new LinkedList<String>();
+		playerIDs = new LinkedList<Integer>();
 	}
 
 	private void extractCurrentPlayerNumber() {
@@ -126,9 +130,10 @@ public class ClientMonitor {
 	}
 	
 	
-	public synchronized void setAction(String action) {
+	public synchronized void setActionAndPlayerID(String action, int id) {
 		this.action = action;
 		actions.add(action);
+		playerIDs.add(id);
 	}
 	
 
@@ -136,16 +141,17 @@ public class ClientMonitor {
 		return action;
 	}
 
-	public synchronized LinkedList getActions() {
+	public synchronized LinkedList<String> getActions() {
 		return actions;
 	}
 	
-	public synchronized int getPlayerID(){
-		return playerID;
+	public synchronized LinkedList<Integer> getPlayerIDs(){
+		return playerIDs;
 	}
 	
 	public synchronized void setPlayerID(int id) {
 		this.playerID = id;
+		playerIDs.add(id);
 	}
 
 	
