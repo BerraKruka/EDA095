@@ -113,8 +113,8 @@ public class ServerWaitScreen extends BasicGameState {
 		//	start.setServer(server, serverMonitor);
 			start.setClient(client, clientMonitor);
 			server.sendToAllTCP(new GameStartMessage());
-			
 			server.removeListener(joinListener);
+			
 			server.addListener(new GamePlayListener(serverMonitor));
 			ServerSender ss = new ServerSender(serverMonitor,server);
 			ss.start();
