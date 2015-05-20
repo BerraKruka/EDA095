@@ -64,7 +64,7 @@ public class ServerScreen extends BasicGameState{
     	ServerWaitScreen serverWait = (ServerWaitScreen) game.getState(ServerWaitScreen.ID);
     	try {
 			serverWait.startServer();
-			serverWait.startClient(playerID.getText(), "localhost");
+			serverWait.startClient(playerID.getText(), "10.3.48.99");
 			ClientMonitor monitor = serverWait.getMonitor();
 			
 			

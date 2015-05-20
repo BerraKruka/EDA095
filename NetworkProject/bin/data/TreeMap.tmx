@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="34" tileheight="34" nextobjectid="1">
+ <tileset firstgid="1" name="grass" tilewidth="34" tileheight="34">
+  <image source="background02_02.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="2" name="tree" tilewidth="34" tileheight="34">
+  <image source="tree.png" width="34" height="68"/>
+  <tile id="1">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="4" name="trees" tilewidth="34" tileheight="68">
+  <tile id="0">
+   <image width="34" height="68" source="tree.png"/>
+  </tile>
+ </tileset>
+ <layer name="ground" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA2NkYGBgxIOZoBiXHLIaXOrQzSKkDt18cuUpVT9q3uA2DzktkZKuRvEoHsXUwQDsYVh2QAYAAA==
+  </data>
+ </layer>
+ <layer name="blocked" width="20" height="20">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+2TOwoAIAxDA73/nd0rbRLIIhjo0s9rRC0AFY5NW0/PM5660+WpUs+b5Dl6iee8C8br3KlH8VOt7npz/4ejz7vrKd50X8qMw8OQYzw2xzyk4gDItbVsQAYAAA==
+  </data>
+ </layer>
+</map>
