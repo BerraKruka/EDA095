@@ -270,7 +270,7 @@ public class GameStart extends BasicGameState {
 		case Input.KEY_SPACE:
 			try {
 				ActionMessage actionMsg = new ActionMessage();
-				actionMsg.action = "BOMB";
+				actionMsg.action = "RIGHT";
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
 				client.sendTCP(actionMsg);
 			} catch (InterruptedException e) {

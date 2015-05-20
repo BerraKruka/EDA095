@@ -1,0 +1,15 @@
+package client;
+
+public class ClientSender extends Thread {
+	private ClientMonitor monitor;
+	public ClientSender(ClientMonitor monitor){
+		this.monitor = monitor;
+	}
+	public void run(){
+		while(!Thread.interrupted){
+			
+		}
+		
+		
+	}
+}

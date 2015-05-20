@@ -205,6 +205,7 @@ public class GameStart extends BasicGameState {
 		// float delta = d * 1f;
 		try {
 			readAction(delta);
+			readBomb();
 		} catch (InterruptedException e1) {
 			System.out.println("Interrupted");
 			e1.printStackTrace();
@@ -259,7 +260,9 @@ public class GameStart extends BasicGameState {
 		return ID;
 	}
 
+	public void keyCustomPressed(int key, char c) {
 
+	}
 
 	public void keyReleased(int key, char c) {
 		switch (key) {
@@ -269,10 +272,9 @@ public class GameStart extends BasicGameState {
 			break;
 		case Input.KEY_SPACE:
 			try {
-				ActionMessage actionMsg = new ActionMessage();
-				actionMsg.action = "BOMB";
-				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				BombMessage bm = new BombMessage();
+				bm.playerID = clientMonitor.getPlayerNumber();
+				client.sendTCP(bm);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
