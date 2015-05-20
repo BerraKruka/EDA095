@@ -38,6 +38,8 @@ public class ClientScreen extends BasicGameState{
 		
 		hostIP = new TextField(container,StateUtils.font,200,80,200,20);
 		StateUtils.setTextFieldAttr(hostIP,"...",input);
+		
+		
 
 	}
 	

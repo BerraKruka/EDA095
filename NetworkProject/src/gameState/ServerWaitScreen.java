@@ -1,9 +1,10 @@
 package gameState;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import networkInfo.GameStartMessage;
-import networkInfo.JoinRequest;
 import networkInfo.NetworkUtils;
 
 import org.newdawn.slick.Color;
@@ -54,6 +55,9 @@ public class ServerWaitScreen extends BasicGameState {
 
 		allPlayer = new TextField[4];
 		StateUtils.initPlayersTextField(container, allPlayer);
+		
+		
+	
 	}
 
 	// now start the server.
