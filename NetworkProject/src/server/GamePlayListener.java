@@ -18,8 +18,10 @@ public class GamePlayListener extends Listener {
 	}
 	
 	public void received(Connection connection, Object object) {
+		if(object instanceof ActionMessage){
 			ActionMessage playerAction = (ActionMessage) object;
 			monitor.queueAction(playerAction);
+		}
 	}
 	
 
