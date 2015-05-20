@@ -20,6 +20,8 @@ public class NetworkUtils {
 	public final static int TCPport= 20000;
 	public final static int UDPport= 20001;
 	
+	public final static String HOST_IP="localhost";
+	
 	public static void registerPackages(Kryo kryo){
 		kryo.register(JoinRequest.class);
 		kryo.register(JoinAckResponse.class);

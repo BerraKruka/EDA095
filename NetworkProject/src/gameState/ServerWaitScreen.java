@@ -17,8 +17,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import server.GamePlayListener;
 import server.JoinGameListener;
 import server.ServerMonitor;
+import server.ServerSender;
+import Game.GameStart;
 import client.ClientJoinListener;
 import client.ClientMonitor;
 
@@ -31,13 +34,14 @@ public class ServerWaitScreen extends BasicGameState {
 	private StateBasedGame game;
 
 	private Server server;
+	private JoinGameListener joinListener;
 	private ServerMonitor serverMonitor;
 
 	private TextField[] allPlayer;
 	private int nPlayers;
 	private String currentPlayerID;
-	private int currentPlayerNumber;
 	private String[] currentPlayers;
+	
 
 	private Client client;
 	private ClientMonitor clientMonitor;
@@ -55,7 +59,8 @@ public class ServerWaitScreen extends BasicGameState {
 	public void startServer() throws IOException {
 		serverMonitor = new ServerMonitor();
 		server = NetworkUtils.setupServer();
-		server.addListener(new JoinGameListener(serverMonitor));
+		joinListener = new JoinGameListener(serverMonitor);
+		server.addListener(joinListener);
 		server.start();
 
 	}
@@ -82,7 +87,7 @@ public class ServerWaitScreen extends BasicGameState {
 		try {
 			if (clientMonitor.newInfo()) {
 				nPlayers = clientMonitor.getNPlayers();
-				currentPlayerNumber = clientMonitor.getPlayerNumber();
+//				currentPlayerNumber = clientMonitor.getPlayerNumber();
 				currentPlayers = clientMonitor.getCurrentPlayers();
 				for (int i = 0; i < nPlayers; i++) {
 					allPlayer[i].setText(currentPlayers[i]);
@@ -102,12 +107,18 @@ public class ServerWaitScreen extends BasicGameState {
 
 	private void transitionHandler() {
 		GameStart start = (GameStart) game.getState(GameStart.ID);
-		//anslutningen e redan fixad ---- bara skicka med server / client till nästa 	
+		//anslutningen e redan fixad ---- bara skicka med server / client till nï¿½sta 	
 		
 		try {
 		//	start.setServer(server, serverMonitor);
 			start.setClient(client, clientMonitor);
 			server.sendToAllTCP(new GameStartMessage());
+			//server.removeListener(joinListener);
+			
+			server.addListener(new GamePlayListener(serverMonitor));
+			ServerSender ss = new ServerSender(serverMonitor,server);
+			ss.start();
+			
 		} catch (IOException e) {
 			
 			e.printStackTrace();

@@ -2,6 +2,8 @@ package gameState;
 
 import java.io.IOException;
 
+import networkInfo.NetworkUtils;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -64,7 +66,7 @@ public class ServerScreen extends BasicGameState{
     	ServerWaitScreen serverWait = (ServerWaitScreen) game.getState(ServerWaitScreen.ID);
     	try {
 			serverWait.startServer();
-			serverWait.startClient(playerID.getText(), "10.3.48.99");
+			serverWait.startClient(playerID.getText(), NetworkUtils.HOST_IP);
 			ClientMonitor monitor = serverWait.getMonitor();
 			
 			
@@ -74,7 +76,7 @@ public class ServerScreen extends BasicGameState{
 		}
 	}
 	
-	 public void keyReleased(int key, char c) {
+	 public void keyPressed(int key, char c) {
 	        switch(key) {
 	        case Input.KEY_BACK:
 	        	if(playerID.hasFocus()){

@@ -3,6 +3,8 @@ import gameState.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
+
+import Game.GameStart;
  
 public class BomberMan extends StateBasedGame{
 

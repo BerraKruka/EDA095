@@ -14,6 +14,18 @@ public class Pos {
 		y += deltaY;
 	}
 
+	public void moveLeft(){
+		x-=POS_REL;
+	}
+	public void moveRight(){
+		x+=POS_REL;
+	}
+	public void moveUp(){
+		y-=POS_REL;
+	}
+	public void moveDown(){
+		y+=POS_REL;
+	}
 	public void updatePos(float xNew, float yNew) {
 		x = xNew;
 		y = yNew;

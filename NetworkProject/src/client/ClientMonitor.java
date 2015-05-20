@@ -1,5 +1,7 @@
 package client;
 
+import java.util.LinkedList;
+
 import entity.GameEntity;
 import entity.Player;
 import entity.Pos;
@@ -22,6 +24,8 @@ public class ClientMonitor {
 	private boolean actionMsg;
 	
 	private String action;
+	private LinkedList<String> actions;
+	
 	private int playerID;
 	
 	private boolean bomb;
@@ -43,6 +47,7 @@ public class ClientMonitor {
 		start = false;
 		actionMsg = false;
 		bomb = false;
+		actions = new LinkedList<String>();
 	}
 
 	private void extractCurrentPlayerNumber() {
@@ -123,11 +128,16 @@ public class ClientMonitor {
 	
 	public synchronized void setAction(String action) {
 		this.action = action;
+		actions.add(action);
 	}
 	
 
 	public synchronized String getAction() {
 		return action;
+	}
+
+	public synchronized LinkedList getActions() {
+		return actions;
 	}
 	
 	public synchronized int getPlayerID(){

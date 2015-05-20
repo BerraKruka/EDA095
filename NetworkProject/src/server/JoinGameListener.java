@@ -34,11 +34,11 @@ public class JoinGameListener extends Listener {
 		}else if(object instanceof ActionMessage) {
 			Server server = (Server) connection.getEndPoint();
 			ActionMessage playerAction = (ActionMessage) object;
-			server.sendToAllUDP(playerAction);
+			server.sendToAllTCP(playerAction);
 		}else if(object instanceof BombMessage) {
 			Server server = (Server) connection.getEndPoint();
 			BombMessage bm = (BombMessage) object;
-			server.sendToAllUDP(bm);
+			server.sendToAllTCP(bm);
 		}
 	}
 	

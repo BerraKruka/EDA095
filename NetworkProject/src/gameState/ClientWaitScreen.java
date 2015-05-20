@@ -15,6 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import Game.GameStart;
 import client.ClientJoinListener;
 import client.ClientMonitor;
 

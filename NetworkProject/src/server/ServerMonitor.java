@@ -1,5 +1,7 @@
 package server;
 
+import java.util.LinkedList;
+
 import networkInfo.ActionMessage;
 import networkInfo.GameStartMessage;
 import networkInfo.JoinAckResponse;
@@ -7,11 +9,11 @@ import networkInfo.JoinAckResponse;
 public class ServerMonitor {
 	private JoinAckResponse response;
 	private GameStartMessage start;
-	private ActionMessage action;
+	private LinkedList<ActionMessage> actions;
 	public ServerMonitor(){
 		start = new GameStartMessage();
 		response = new JoinAckResponse();
-		action = new ActionMessage();
+		actions = new LinkedList();
 		response.currentPlayers = new String[4];
 		response.number = 0;
 	}
@@ -31,5 +33,15 @@ public class ServerMonitor {
 			}
 		}
 		return false;
+	}
+
+	public synchronized void queueAction(ActionMessage playerAction) {
+			actions.add(playerAction);
+			notifyAll();
+	}
+
+	public synchronized Object getActionMessage() throws InterruptedException {
+		while(actions.isEmpty()) wait();
+		return actions.pop();
 	}
 }
