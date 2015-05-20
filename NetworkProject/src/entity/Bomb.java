@@ -11,7 +11,7 @@ public class Bomb extends Entity {
 
 	private Image bombImg, bombExplode;
 
-	private long timeToLive, dropTime, explodeTime, displayTime;
+	public long timeToLive, dropTime, explodeTime, displayTime;
 	private boolean isExp;
 
 	public Bomb(float x, float y, float width, float height, long timeToLive) {
@@ -40,7 +40,7 @@ public class Bomb extends Entity {
 			bombExplode.draw(x - 136, y - 136);
 			isExp = true;
 		} else {
-			bombImg.draw(x, y);
+			bombImg.draw(x, y-15);
 			isExp = false;
 		}
 

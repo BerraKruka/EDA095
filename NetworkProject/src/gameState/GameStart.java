@@ -256,7 +256,7 @@ public class GameStart extends BasicGameState {
 //	}
 
 	private void die(Bomb bomb, Player player) {
-		if (bomb.isExploaded()) {
+		if (bomb.isExploaded() && bomb.explodeTime < bomb.displayTime) {
 
 			ArrayList<Pos> deadList = new ArrayList<Pos>();
 			
@@ -328,6 +328,7 @@ public class GameStart extends BasicGameState {
 				}
 			}
 		}
+		
 		grassMap.render(0, 0, 2);
 
 	}

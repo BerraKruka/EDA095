@@ -25,6 +25,8 @@ public class Player extends GameEntity {
 		this.positions = positions;
 		this.playerNumber = playerNumber;
 		dead = false;
+		this.getBoundingBox().setCenterX(pos.getX()+15);
+		this.getBoundingBox().setCenterY(pos.getY()+15);
 		
 	}
 
@@ -93,7 +95,7 @@ public class Player extends GameEntity {
 	}
 
 	public void draw() {
-		playerSprite.draw(pos.x, pos.y);
+		playerSprite.draw(pos.x, pos.y-15);
 	}
 
 	public boolean isDead() {
@@ -147,6 +149,7 @@ public class Player extends GameEntity {
 			playerSprite.update(timeUpdate);
 		}
 		this.setPos(pos);
+		
 	}
 
 	private boolean isBlocked(int direction, float x, float y, boolean[][]  blocked) {
