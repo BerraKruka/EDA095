@@ -221,7 +221,7 @@ public class GameStart extends BasicGameState {
 			System.out.println("Interrupted");
 			e1.printStackTrace();
 		}
-		if (input.isKeyDown(Input.KEY_UP)) {
+		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W)) {
 			try {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "UP";
@@ -232,7 +232,7 @@ public class GameStart extends BasicGameState {
 				e.printStackTrace();
 			}
 
-		} else if (input.isKeyDown(Input.KEY_DOWN)) {
+		} else if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S)) {
 			try {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "DOWN";
@@ -242,7 +242,7 @@ public class GameStart extends BasicGameState {
 				System.out.println("Interrupted");
 				e.printStackTrace();
 			}
-		} else if (input.isKeyDown(Input.KEY_LEFT)) {
+		} else if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)) {
 			try {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "LEFT";
@@ -252,7 +252,7 @@ public class GameStart extends BasicGameState {
 				System.out.println("Interrupted");
 				e.printStackTrace();
 			}
-		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
+		} else if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
 			try {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "RIGHT";
