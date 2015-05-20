@@ -126,12 +126,176 @@ public class GameStart extends BasicGameState {
 				}
 			}
 		}
+	//	placeBoxes();
 
 	}
 
+//	private void placeBoxes() {
+//		Pos pos;
+//
+//		pos = new Pos(6, 1);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][1] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 2);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][2] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 3);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][3] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 4);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][4] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 1);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][1] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 2);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][2] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 3);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][3] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 4);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][4] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 15);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][15] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 16);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][16] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 17);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][17] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(6, 18);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[6][18] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 15);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][15] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 16);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][16] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 17);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][17] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(13, 18);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[13][18] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(1, 10);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[1][10] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(2, 10);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[2][10] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(17, 9);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[17][9] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(18, 9);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[18][9] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(10, 10);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[10][10] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(9, 10);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[9][10] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(9, 9);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[9][9] = true;
+//		boxes.add(box);
+//
+//		pos = new Pos(10, 9);
+//		box = new WoodBox(pos, (float) SIZE, (float) SIZE, WoodBox.DOWN);
+//		blocked[10][9] = true;
+//		boxes.add(box);
+//
+//	}
+
+	private void die(Bomb bomb, Player player) {
+		if (bomb.isExploaded() && bomb.explodeTime < bomb.displayTime) {
+
+			ArrayList<Pos> deadList = new ArrayList<Pos>();
+			
+			int x = bomb.getX();
+			int y = bomb.getY();
+		
+
+			deadList.add(new Pos(x, y));
+			deadList.add(new Pos(x + 1, y));
+			deadList.add(new Pos(x + 2, y));
+			deadList.add(new Pos(x + 3, y));
+			deadList.add(new Pos(x - 1, y));
+			deadList.add(new Pos(x - 2, y));
+			deadList.add(new Pos(x - 3, y));
+			deadList.add(new Pos(x - 4, y));
+			deadList.add(new Pos(x + 4, y));
+
+			deadList.add(new Pos(x, y + 1));
+			deadList.add(new Pos(x, y + 2));
+			deadList.add(new Pos(x, y + 3));
+			deadList.add(new Pos(x, y + 4));
+			deadList.add(new Pos(x, y - 1));
+			deadList.add(new Pos(x, y - 2));
+			deadList.add(new Pos(x, y - 3));
+			deadList.add(new Pos(x, y - 4));
 
 
-	
+
+			for (int i = 0; i < deadList.size(); i++) {
+				Pos dead = deadList.get(i);
+				if ((dead.getX() / 34 )== (player.getX())
+						&& (dead.getY() / 34) == player.getY()) {
+					player.setDead();
+				}
+			}
+
+		}
+
+	}
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
@@ -266,7 +430,7 @@ public class GameStart extends BasicGameState {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "UP";
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
@@ -277,7 +441,7 @@ public class GameStart extends BasicGameState {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "DOWN";
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
@@ -287,7 +451,7 @@ public class GameStart extends BasicGameState {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "LEFT";
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
@@ -297,7 +461,7 @@ public class GameStart extends BasicGameState {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "RIGHT";
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
@@ -306,7 +470,7 @@ public class GameStart extends BasicGameState {
 			try {
 				BombMessage bm = new BombMessage();
 				bm.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(bm);
+				client.sendUDP(bm);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
@@ -330,53 +494,6 @@ public class GameStart extends BasicGameState {
 		default:
 			break;
 		}
-	}
-	
-	
-	
-	
-	
-	
-	private void die(Bomb bomb, Player player) {
-		if (bomb.isExploaded() && bomb.explodeTime < bomb.displayTime) {
-
-			ArrayList<Pos> deadList = new ArrayList<Pos>();
-			
-			int x = bomb.getX();
-			int y = bomb.getY();
-		
-
-			deadList.add(new Pos(x, y));
-			deadList.add(new Pos(x + 1, y));
-			deadList.add(new Pos(x + 2, y));
-			deadList.add(new Pos(x + 3, y));
-			deadList.add(new Pos(x - 1, y));
-			deadList.add(new Pos(x - 2, y));
-			deadList.add(new Pos(x - 3, y));
-			deadList.add(new Pos(x - 4, y));
-			deadList.add(new Pos(x + 4, y));
-
-			deadList.add(new Pos(x, y + 1));
-			deadList.add(new Pos(x, y + 2));
-			deadList.add(new Pos(x, y + 3));
-			deadList.add(new Pos(x, y + 4));
-			deadList.add(new Pos(x, y - 1));
-			deadList.add(new Pos(x, y - 2));
-			deadList.add(new Pos(x, y - 3));
-			deadList.add(new Pos(x, y - 4));
-
-
-
-			for (int i = 0; i < deadList.size(); i++) {
-				Pos dead = deadList.get(i);
-				if ((dead.getX() / 34 )== (player.getX())
-						&& (dead.getY() / 34) == player.getY()) {
-					player.setDead();
-				}
-			}
-
-		}
-
 	}
 
 }

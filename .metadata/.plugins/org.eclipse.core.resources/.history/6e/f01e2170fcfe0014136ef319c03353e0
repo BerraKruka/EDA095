@@ -277,7 +277,7 @@ public class GameStart extends BasicGameState {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "DOWN";
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
@@ -287,7 +287,7 @@ public class GameStart extends BasicGameState {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "LEFT";
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
@@ -297,7 +297,7 @@ public class GameStart extends BasicGameState {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "RIGHT";
 				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				client.sendUDP(actionMsg);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();
@@ -306,7 +306,7 @@ public class GameStart extends BasicGameState {
 			try {
 				BombMessage bm = new BombMessage();
 				bm.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(bm);
+				client.sendUDP(bm);
 			} catch (InterruptedException e) {
 				System.out.println("Interrupted");
 				e.printStackTrace();

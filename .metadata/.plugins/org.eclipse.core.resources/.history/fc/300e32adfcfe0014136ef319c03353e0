@@ -1,4 +1,4 @@
-package gameState;
+package Game;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ import entity.GameEntity;
 import entity.Player;
 import entity.Pos;
 import entity.WoodBox;
+import gameState.Menu;
 
 public class GameStart extends BasicGameState {
 	private TiledMap grassMap;
@@ -37,26 +38,24 @@ public class GameStart extends BasicGameState {
 	public final static int ID = 9;
 
 	private StateBasedGame game; // stored for later use
+	
 	private Player player0;
 	private Player player1;
 	private Player player2;
 	private Player player3;
+	
+	
 	private LinkedList<WoodBox> boxes;
 	private LinkedList<Bomb> bombs;
 	private GameEntity[][] positions;
-	private WoodBox box;
-	private Bomb bomb;
 
 	private boolean[][] blocked;
-	private static final int SIZE = 34;
-	
+
 	private ArrayList<Player> players;
 
-	private Server server;
-	private ServerMonitor serverMonitor;
+	
 	private Client client;
 	private ClientMonitor clientMonitor;
-	private Shape shape;
 
 	public GameStart() throws SlickException {
 		grassMap = new TiledMap("data/test.tmx");
@@ -64,15 +63,10 @@ public class GameStart extends BasicGameState {
 		boxes = new LinkedList<WoodBox>();
 		bombs = new LinkedList<Bomb>();
 		players = new ArrayList<Player>();
-		
-	}
-
-	public void setServer(Server serverName, ServerMonitor monitor)
-			throws IOException {
-		serverMonitor = monitor;
-		server = serverName;
 
 	}
+
+
 
 	public void setClient(Client clientName, ClientMonitor monitor)
 			throws IOException {
@@ -106,7 +100,7 @@ public class GameStart extends BasicGameState {
 
 		player3 = new Player(pos3, width, height, positions, 3);
 		player3.initAnimation();
-		
+
 		players.add(player0);
 		players.add(player1);
 		players.add(player2);
@@ -122,33 +116,31 @@ public class GameStart extends BasicGameState {
 						"false");
 				if (value.equals("true")) {
 					blocked[xAxis][yAxis] = true;
-					positions[xAxis][yAxis] = new WoodBox(new Pos(xAxis, yAxis), 34,34, 1);
+					positions[xAxis][yAxis] = new WoodBox(
+							new Pos(xAxis, yAxis), 34, 34, 1);
 				}
 			}
 		}
+		// placeBoxes();
 
 	}
 
 
-
-	
 
 	@Override
 	public void render(GameContainer container, StateBasedGame game, Graphics g)
 			throws SlickException {
 		grassMap.render(0, 0, 0);
 		grassMap.render(0, 0, 1);
-		for(int i = 0; i < players.size(); i++) {
-			if(players.get(i).isDead()) {
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i).isDead()) {
 				players.remove(players.get(i));
-			}else {
-				
+			} else {
+
 				players.get(i).draw();
 			}
 		}
-		
-		
-	
+
 		for (WoodBox bx : boxes) {
 			bx.draw();
 		}
@@ -156,15 +148,12 @@ public class GameStart extends BasicGameState {
 		if (!bombs.isEmpty()) {
 			for (Bomb bomb : bombs) {
 				bomb.draw();
-				for(Player player : players) {
-					die(bomb,player);
-				}
-				if(bomb.isExploaded()){
-				//	bombs.remove(bomb);
+				for (Player player : players) {
+					die(bomb, player);
 				}
 			}
 		}
-		
+
 		grassMap.render(0, 0, 2);
 
 	}
@@ -217,42 +206,43 @@ public class GameStart extends BasicGameState {
 	}
 
 	private void dropBomb(Player player) {
-		if(!player.isDead()) {
-		float x = player.getPos().getX();
-		float y = player.getPos().getY();
-		Bomb bomb = new Bomb(x, y, GameEntity.SIZE, GameEntity.SIZE, 3000);
-		bombs.add(bomb);
-		System.out.println("bomb added");
-		clientMonitor.bombFinsihed();
+		if (!player.isDead()) {
+			float x = player.getPos().getX();
+			float y = player.getPos().getY();
+			Bomb bomb = new Bomb(x, y, GameEntity.SIZE, GameEntity.SIZE, 3000);
+			bombs.add(bomb);
+			clientMonitor.bombFinsihed();
 		}
 	}
 
 	private void readCommand(Player player, float delta) {
-		if(!player.isDead()) {
-		String command = clientMonitor.getAction();
-		switch (command) {
-		case "UP":
-			player.move(Player.UP, delta, blocked);
-			break;
-		case "DOWN":
-			player.move(Player.DOWN, delta, blocked);
-			break;
-		case "LEFT":
-			player.move(Player.LEFT, delta, blocked);
-			break;
-		case "RIGHT":
-			player.move(Player.RIGHT, delta, blocked);
-			break;
-		}
-		clientMonitor.actionFinished();
-		}
+		if (!player.isDead()) {
+//			String command = clientMonitor.getAction();
+	
+				switch (lst.pop()) {
+				case "UP":
+					player.move(Player.UP, delta, blocked);
+					break;
+				case "DOWN":
+					player.move(Player.DOWN, delta, blocked);
+					break;
+				case "LEFT":
+					player.move(Player.LEFT, delta, blocked);
+					break;
+				case "RIGHT":
+					player.move(Player.RIGHT, delta, blocked);
+					break;
+				clientMonitor.actionFinished();
+		}	}
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int d)
 			throws SlickException {
 		Input input = container.getInput();
+		
 		float delta = d * 0.2f;
+	//	float delta = d * 1f;
 		try {
 			readAction(delta);
 			readBomb();
@@ -260,7 +250,6 @@ public class GameStart extends BasicGameState {
 			System.out.println("Interrupted");
 			e1.printStackTrace();
 		}
-
 		if (input.isKeyDown(Input.KEY_UP)) {
 			try {
 				ActionMessage actionMsg = new ActionMessage();
@@ -272,7 +261,8 @@ public class GameStart extends BasicGameState {
 				e.printStackTrace();
 			}
 
-		} else if (input.isKeyDown(Input.KEY_DOWN)) {
+		} 
+		else if (input.isKeyDown(Input.KEY_DOWN)) {
 			try {
 				ActionMessage actionMsg = new ActionMessage();
 				actionMsg.action = "DOWN";
@@ -311,40 +301,39 @@ public class GameStart extends BasicGameState {
 				System.out.println("Interrupted");
 				e.printStackTrace();
 			}
-
 		}
-
+	
 	}
 
 	@Override
 	public int getID() {
 		return ID;
 	}
-
+	
+	public void keyCustomPressed(int key, char c){
+		
+	}
+	
 	public void keyReleased(int key, char c) {
 		switch (key) {
 		case Input.KEY_ESCAPE:
 			game.enterState(Menu.ID, new FadeOutTransition(Color.black),
 					new FadeInTransition(Color.black));
 			break;
+			
 		default:
 			break;
 		}
 	}
-	
-	
-	
-	
-	
+
 	
 	private void die(Bomb bomb, Player player) {
 		if (bomb.isExploaded() && bomb.explodeTime < bomb.displayTime) {
 
 			ArrayList<Pos> deadList = new ArrayList<Pos>();
-			
+
 			int x = bomb.getX();
 			int y = bomb.getY();
-		
 
 			deadList.add(new Pos(x, y));
 			deadList.add(new Pos(x + 1, y));
@@ -365,11 +354,9 @@ public class GameStart extends BasicGameState {
 			deadList.add(new Pos(x, y - 3));
 			deadList.add(new Pos(x, y - 4));
 
-
-
 			for (int i = 0; i < deadList.size(); i++) {
 				Pos dead = deadList.get(i);
-				if ((dead.getX() / 34 )== (player.getX())
+				if ((dead.getX() / 34) == (player.getX())
 						&& (dead.getY() / 34) == player.getY()) {
 					player.setDead();
 				}
@@ -378,5 +365,4 @@ public class GameStart extends BasicGameState {
 		}
 
 	}
-
 }
