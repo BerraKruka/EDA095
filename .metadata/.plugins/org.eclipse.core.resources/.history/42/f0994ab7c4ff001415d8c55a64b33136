@@ -208,7 +208,11 @@ public class Player extends GameEntity {
 		return false;
 	}
 
-
+	public Pos getPos() {
+		Pos pos = new Pos(getX(),getY());
+		return pos;
+	}
+	
 	public int getX() {
 		return (int) pos.getX() / 34;
 	}

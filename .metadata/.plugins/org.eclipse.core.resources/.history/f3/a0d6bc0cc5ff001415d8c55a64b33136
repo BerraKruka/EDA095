@@ -262,7 +262,7 @@ public class GameStart extends BasicGameState {
 
 	private void die(Bomb bomb, Player player) {
 		if (bomb.isExploaded() && bomb.explodeTime < bomb.displayTime) {
-			positions[bomb.getX()][bomb.getY()] = null;
+			positions[x][y] = null;
 
 			LinkedList<Pos> deadList = bomb.deadPos();
 

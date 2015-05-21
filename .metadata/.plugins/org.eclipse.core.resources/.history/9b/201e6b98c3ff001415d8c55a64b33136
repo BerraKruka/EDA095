@@ -46,6 +46,7 @@ public class GameStart extends BasicGameState {
 	private LinkedList<Bomb> bombs;
 	private GameEntity[][] positions;
 
+	private boolean[][] blocked;
 
 	private HashMap<Integer, Player> players;
 
@@ -95,6 +96,7 @@ public class GameStart extends BasicGameState {
 		players.put(GameUtils.PLAYER_2, player2);
 		players.put(GameUtils.PLAYER_3, player3);
 
+		blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 		for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
 
 			for (int yAxis = 0; yAxis < grassMap.getHeight(); yAxis++) {
@@ -103,6 +105,7 @@ public class GameStart extends BasicGameState {
 				String value = grassMap.getTileProperty(tileID, "blocked",
 						"false");
 				if (value.equals("true")) {
+					blocked[xAxis][yAxis] = true;
 					positions[xAxis][yAxis] = new WoodBox(
 							new Pos(xAxis, yAxis), 34, 34, 1);
 				}
@@ -153,11 +156,10 @@ public class GameStart extends BasicGameState {
 
 	private void dropBomb(Player player) throws SlickException {
 		if (!player.isDead()) {
-			int x = player.getX();
-			int y = player.getY();
+			float x = player.getPos().getX();
+			float y = player.getPos().getY();
 			Bomb bomb = new Bomb(x, y, 3000);
 			bombs.add(bomb);
-			positions[x][y] = new WoodBox( new Pos(x, y), 34, 34, 1);
 			clientMonitor.bombFinsihed();
 		}
 	}
@@ -167,16 +169,16 @@ public class GameStart extends BasicGameState {
 		if (!player.isDead()) {
 			switch (action) {
 			case "UP":
-				player.move(Player.UP, delta);
+				player.move(Player.UP, delta, blocked);
 				break;
 			case "DOWN":
-				player.move(Player.DOWN, delta);
+				player.move(Player.DOWN, delta, blocked);
 				break;
 			case "LEFT":
-				player.move(Player.LEFT, delta);
+				player.move(Player.LEFT, delta, blocked);
 				break;
 			case "RIGHT":
-				player.move(Player.RIGHT, delta);
+				player.move(Player.RIGHT, delta, blocked);
 				break;
 			case "BOMB":
 				dropBomb(player);
@@ -262,7 +264,6 @@ public class GameStart extends BasicGameState {
 
 	private void die(Bomb bomb, Player player) {
 		if (bomb.isExploaded() && bomb.explodeTime < bomb.displayTime) {
-			positions[bomb.getX()][bomb.getY()] = null;
 
 			LinkedList<Pos> deadList = bomb.deadPos();
 

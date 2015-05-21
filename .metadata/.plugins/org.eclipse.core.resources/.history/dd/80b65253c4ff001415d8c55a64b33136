@@ -153,11 +153,10 @@ public class GameStart extends BasicGameState {
 
 	private void dropBomb(Player player) throws SlickException {
 		if (!player.isDead()) {
-			int x = player.getX();
-			int y = player.getY();
+			float x = player.getPos().getX();
+			float y = player.getPos().getY();
 			Bomb bomb = new Bomb(x, y, 3000);
 			bombs.add(bomb);
-			positions[x][y] = new WoodBox( new Pos(x, y), 34, 34, 1);
 			clientMonitor.bombFinsihed();
 		}
 	}
@@ -167,16 +166,16 @@ public class GameStart extends BasicGameState {
 		if (!player.isDead()) {
 			switch (action) {
 			case "UP":
-				player.move(Player.UP, delta);
+				player.move(Player.UP, delta, blocked);
 				break;
 			case "DOWN":
-				player.move(Player.DOWN, delta);
+				player.move(Player.DOWN, delta, blocked);
 				break;
 			case "LEFT":
-				player.move(Player.LEFT, delta);
+				player.move(Player.LEFT, delta, blocked);
 				break;
 			case "RIGHT":
-				player.move(Player.RIGHT, delta);
+				player.move(Player.RIGHT, delta, blocked);
 				break;
 			case "BOMB":
 				dropBomb(player);
@@ -262,7 +261,6 @@ public class GameStart extends BasicGameState {
 
 	private void die(Bomb bomb, Player player) {
 		if (bomb.isExploaded() && bomb.explodeTime < bomb.displayTime) {
-			positions[bomb.getX()][bomb.getY()] = null;
 
 			LinkedList<Pos> deadList = bomb.deadPos();
 

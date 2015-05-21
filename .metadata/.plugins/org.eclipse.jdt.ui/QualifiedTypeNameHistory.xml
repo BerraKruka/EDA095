@@ -5,4 +5,6 @@
 <fullyQualifiedTypeName name="Game.GameStart"/>
 <fullyQualifiedTypeName name="gameState.GameWin"/>
 <fullyQualifiedTypeName name="gameState.Menu"/>
+<fullyQualifiedTypeName name="org.newdawn.slick.Music"/>
+<fullyQualifiedTypeName name="Game.GameUtils"/>
 </qualifiedTypeNameHistroy>

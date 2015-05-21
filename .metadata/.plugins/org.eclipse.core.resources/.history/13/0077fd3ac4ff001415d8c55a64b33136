@@ -137,12 +137,12 @@ public class Player extends GameEntity {
 		}
 	}
 
-	public void move(int direction, float delta) {
+	public void move(int direction, float delta, boolean[][] blocked) {
 		// set the direction of player after movement
 		playerSprite = getDirection(direction);
 		moveInDirection(direction, delta);
 		this.setPos(pos);
-		if (isBlocked(direction, pos.x, pos.y)) {
+		if (isBlocked(direction, pos.x, pos.y, blocked)) {
 			moveInDirection(direction, -delta);
 		} else {
 			long timeUpdate = (long) (delta * 5);
@@ -152,7 +152,7 @@ public class Player extends GameEntity {
 		
 	}
 
-	private boolean isBlocked(int direction, float x, float y) {
+	private boolean isBlocked(int direction, float x, float y, boolean[][]  blocked) {
 		relX = (int) x /34;
 		relY = (int) y /34;
 		switch (direction) {
@@ -208,7 +208,11 @@ public class Player extends GameEntity {
 		return false;
 	}
 
-
+	public Pos getPos() {
+		Pos pos = new Pos(getX(),getY());
+		return pos;
+	}
+	
 	public int getX() {
 		return (int) pos.getX() / 34;
 	}
