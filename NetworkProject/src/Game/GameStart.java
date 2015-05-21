@@ -113,8 +113,8 @@ public class GameStart extends BasicGameState {
 
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException {
-		 Music openingMenuMusic = new Music("data/music.ogg");
-		openingMenuMusic.loop();
+		// Music openingMenuMusic = new Music("data/music.ogg");
+		//openingMenuMusic.loop();
 		this.game = game;
 		resetVariable();
 
