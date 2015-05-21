@@ -1,3 +1,8 @@
 # EDA095
-Hej
-OMG BJÖRN <- gummy bear
+//TODO
+	* One Player Left <- Win the game
+	* Player left the game
+	* Reset the game
+	* Block bomb
+	* Box block the bomb 
+

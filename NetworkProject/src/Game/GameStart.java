@@ -27,13 +27,12 @@ import entity.GameEntity;
 import entity.Player;
 import entity.Pos;
 import entity.WoodBox;
-import gameState.Menu;
 
 public class GameStart extends BasicGameState {
 	private TiledMap grassMap;
 
 	public final static int ID = 9;
-
+	
 	private StateBasedGame game; // stored for later use
 
 	private Player player0;
@@ -47,20 +46,24 @@ public class GameStart extends BasicGameState {
 
 	private boolean[][] blocked;
 
-	private HashMap<Integer,Player> players;
+	private HashMap<Integer, Player> players;
 
 	private Client client;
 	private ClientMonitor clientMonitor;
-	
+
 	private int deadPlayers = 0;
 
+	
 	public GameStart() throws SlickException {
 		grassMap = new TiledMap("data/test.tmx");
 		positions = new GameEntity[grassMap.getWidth()][grassMap.getHeight()];
 		boxes = new LinkedList<WoodBox>();
 		bombs = new LinkedList<Bomb>();
-		players = new HashMap<Integer,Player>();
-		
+		players = new HashMap<Integer, Player>();
+
+	}
+
+	public void enter() throws SlickException {
 
 	}
 
@@ -70,37 +73,30 @@ public class GameStart extends BasicGameState {
 		client = clientName;
 	}
 
-	public void init(GameContainer container, StateBasedGame game)
-			throws SlickException {
-
-		// begin temp code
-		this.game = game;
-
-		Pos pos = new Pos(1, 1);
+	private void resetVariable() throws SlickException {
 		float width = 20;
 		float height = 10;
 
-		player0 = new Player(pos, width, height, positions, 0);
+		Pos pos = new Pos(1, 1);
+		player0 = new Player(pos, width, height, positions, GameUtils.PLAYER_0);
 		player0.initAnimation();
 
-		Pos pos1 = new Pos(1, 18);
-
-		player1 = new Player(pos1, width, height, positions, 1);
+		pos = new Pos(1, 18);
+		player1 = new Player(pos, width, height, positions, GameUtils.PLAYER_1);
 		player1.initAnimation();
 
-		Pos pos2 = new Pos(18, 1);
-		player2 = new Player(pos2, width, height, positions, 2);
+		pos = new Pos(18, 1);
+		player2 = new Player(pos, width, height, positions, GameUtils.PLAYER_2);
 		player2.initAnimation();
 
-		Pos pos3 = new Pos(18, 18);
-
-		player3 = new Player(pos3, width, height, positions, 3);
+		pos = new Pos(18, 18);
+		player3 = new Player(pos, width, height, positions, GameUtils.PLAYER_3);
 		player3.initAnimation();
 
-		players.put(0,player0);
-		players.put(1,player1);
-		players.put(2,player2);
-		players.put(3,player3);
+		players.put(GameUtils.PLAYER_0, player0);
+		players.put(GameUtils.PLAYER_1, player1);
+		players.put(GameUtils.PLAYER_2, player2);
+		players.put( GameUtils.PLAYER_3, player3);
 
 		blocked = new boolean[grassMap.getWidth()][grassMap.getHeight()];
 		for (int xAxis = 0; xAxis < grassMap.getWidth(); xAxis++) {
@@ -117,7 +113,14 @@ public class GameStart extends BasicGameState {
 				}
 			}
 		}
-		
+
+	}
+
+	public void init(GameContainer container, StateBasedGame game)
+			throws SlickException {
+
+		this.game = game;
+		resetVariable();
 
 	}
 
@@ -127,13 +130,10 @@ public class GameStart extends BasicGameState {
 		grassMap.render(0, 0, 0);
 		grassMap.render(0, 0, 1);
 
-		
-
 		for (WoodBox bx : boxes) {
 			bx.draw();
 		}
 
-		
 		if (!bombs.isEmpty()) {
 			for (Bomb bomb : bombs) {
 				bomb.draw();
@@ -142,36 +142,18 @@ public class GameStart extends BasicGameState {
 				}
 			}
 		}
-		
-		
+
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).isDead()) {
 				players.remove(players.get(i));
 			} else {
-				
-			//	grassMap.render(0, players.get(i).getY(), 1);
 				players.get(i).draw();
-			//	grassMap.render(0, grassMap.getHeight()-players.get(i).getY(), 1);
 			}
 		}
 
-		
-		
-		
-		
 		grassMap.render(0, 0, 2);
-		
-	}
-
-	private void readAction(float delta) throws InterruptedException, SlickException {
-		LinkedList<Integer> playerIDs = clientMonitor.getPlayerIDs();
-		LinkedList<String> actions = clientMonitor.getActions();
-		while (!actions.isEmpty()) {
-			readCommand(players.get(playerIDs.pop()), delta, actions.pop());	
-		}
 
 	}
-
 
 	private void dropBomb(Player player) throws SlickException {
 		if (!player.isDead()) {
@@ -183,10 +165,9 @@ public class GameStart extends BasicGameState {
 		}
 	}
 
-	private void readCommand(Player player, float delta, String action) throws SlickException {
+	private void readCommand(Player player, float delta, String action)
+			throws SlickException {
 		if (!player.isDead()) {
-			// String command = clientMonitor.getAction();
-
 			switch (action) {
 			case "UP":
 				player.move(Player.UP, delta, blocked);
@@ -207,62 +188,48 @@ public class GameStart extends BasicGameState {
 		}
 	}
 
+	private void actionInputHandler(String action) throws InterruptedException {
+		ActionMessage actionMsg = new ActionMessage();
+		actionMsg.action = action;
+		actionMsg.playerID = clientMonitor.getPlayerNumber();
+		client.sendTCP(actionMsg);
+
+	}
+
+	private void readAction(float delta) throws InterruptedException,
+			SlickException {
+		LinkedList<Integer> playerIDs = clientMonitor.getPlayerIDs();
+		LinkedList<String> actions = clientMonitor.getActions();
+
+		while (!actions.isEmpty()) {
+			readCommand(players.get(playerIDs.pop()), delta, actions.pop());
+		}
+
+	}
+
 	@Override
 	public void update(GameContainer container, StateBasedGame game, int d)
 			throws SlickException {
-		Input input = container.getInput();
-
 		// HASTIGHET
 		float delta = d * 0.12f;
-		
+
 		try {
 			readAction(delta);
-		} catch (InterruptedException e1) {
-			System.out.println("Interrupted");
-			e1.printStackTrace();
-		}
-		if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W)) {
-			try {
-				ActionMessage actionMsg = new ActionMessage();
-				actionMsg.action = "UP";
-				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
-			} catch (InterruptedException e) {
-				System.out.println("Interrupted");
-				e.printStackTrace();
+			
+			Input input = container.getInput();
+			if(input.isKeyDown( Input.KEY_UP) || input.isKeyDown( Input.KEY_W)){
+				actionInputHandler(GameUtils.UP);
+			}else if(input.isKeyDown( Input.KEY_DOWN) || input.isKeyDown( Input.KEY_S)){
+				actionInputHandler(GameUtils.DOWN);
+			}else if(input.isKeyDown( Input.KEY_LEFT) || input.isKeyDown( Input.KEY_A)){
+				actionInputHandler(GameUtils.LEFT);
+			}else if(input.isKeyDown( Input.KEY_RIGHT) || input.isKeyDown( Input.KEY_D)){
+				actionInputHandler(GameUtils.RIGHT);
 			}
+		} catch (InterruptedException e) {
 
-		} else if (input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_S)) {
-			try {
-				ActionMessage actionMsg = new ActionMessage();
-				actionMsg.action = "DOWN";
-				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
-			} catch (InterruptedException e) {
-				System.out.println("Interrupted");
-				e.printStackTrace();
-			}
-		} else if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)) {
-			try {
-				ActionMessage actionMsg = new ActionMessage();
-				actionMsg.action = "LEFT";
-				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
-			} catch (InterruptedException e) {
-				System.out.println("Interrupted");
-				e.printStackTrace();
-			}
-		} else if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
-			try {
-				ActionMessage actionMsg = new ActionMessage();
-				actionMsg.action = "RIGHT";
-				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
-			} catch (InterruptedException e) {
-				System.out.println("Interrupted");
-				e.printStackTrace();
-			}
-		} 
+			e.printStackTrace();
+		}
 
 	}
 
@@ -271,22 +238,21 @@ public class GameStart extends BasicGameState {
 		return ID;
 	}
 
-
-
 	public void keyReleased(int key, char c) {
 		switch (key) {
 		case Input.KEY_ESCAPE:
-			game.enterState(Menu.ID, new FadeOutTransition(Color.black),
+			try {
+				resetVariable();
+			} catch (SlickException e1) {
+				e1.printStackTrace();
+			}
+			game.enterState(GameStart.ID, new FadeOutTransition(Color.orange),
 					new FadeInTransition(Color.black));
 			break;
 		case Input.KEY_SPACE:
 			try {
-				ActionMessage actionMsg = new ActionMessage();
-				actionMsg.action = "BOMB";
-				actionMsg.playerID = clientMonitor.getPlayerNumber();
-				client.sendTCP(actionMsg);
+				actionInputHandler("BOMB");
 			} catch (InterruptedException e) {
-				System.out.println("Interrupted");
 				e.printStackTrace();
 			}
 		default:
@@ -327,18 +293,21 @@ public class GameStart extends BasicGameState {
 						&& (dead.getY() / 34) == player.getY()) {
 					player.setDead();
 					deadPlayers++;
-					System.out.println("Player "+(player.getPlayerNumber()+1)+" is dead");
-					if(deadPlayers == 3){
-						for(Player p : players.values()){
-							if(!p.isDead())
-							System.out.println("Player "+(p.getPlayerNumber()+1)+" has won the game!!!one!1111one!");
+					System.out.println("Player "
+							+ (player.getPlayerNumber() + 1) + " is dead");
+					if (deadPlayers == 3) {
+						for (Player p : players.values()) {
+							if (!p.isDead())
+								System.out.println("Player "
+										+ (p.getPlayerNumber() + 1)
+										+ " has won the game!!!one!1111one!");
 						}
-						
+
 					}
+				}
+
 			}
 
 		}
-
 	}
-}
 }

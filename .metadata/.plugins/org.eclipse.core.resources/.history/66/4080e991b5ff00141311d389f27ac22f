@@ -1,0 +1,10 @@
+package Game;
+
+public class GameUtils {
+	public final static String UP = "UP";
+	public final static String DOWN = "DOWN";
+	public final static String LEFT = "LEFT";
+	public final static String RIGHT = "RIGHT";
+	
+	public final static int p1Id = 1;
+}

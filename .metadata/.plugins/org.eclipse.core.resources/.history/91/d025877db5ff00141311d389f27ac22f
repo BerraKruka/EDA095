@@ -1,0 +1,6 @@
+package Game;
+
+public class GameUtils {
+	public final static String UP = "UP";
+	public final static String DOWN = "DOWN";
+}
