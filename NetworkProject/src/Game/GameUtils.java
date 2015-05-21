@@ -7,6 +7,8 @@ public class GameUtils {
 	public final static String RIGHT = "RIGHT";
 	public final static String BOMB = "BOMB";
 	
+	public final static float STEP = 34;
+	
 	public final static int PLAYER_0 = 0;
 	public final static int PLAYER_1 = 1;
 	public final static int PLAYER_2 = 2;

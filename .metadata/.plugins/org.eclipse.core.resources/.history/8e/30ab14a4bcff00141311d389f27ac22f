@@ -1,0 +1,96 @@
+package entity;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tests.xml.Entity;
+
+public class Bomb extends Entity {
+	private float x, y;
+	private float width, height;
+
+	private Image bombImg, bombExplode;
+	private int range;
+	
+	public long timeToLive, dropTime, explodeTime, displayTime;
+	private boolean isExp;
+
+	public Bomb(float x, float y, float width, float height, long timeToLive) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.range = 4;
+		
+		this.timeToLive = timeToLive;
+		try {
+			bombImg = new Image("data/bomb.png");
+			bombExplode = new Image("data/explosion.png");
+
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		dropTime = System.currentTimeMillis();
+		displayTime = 4500;
+	}
+
+	public void draw() {
+		explodeTime = System.currentTimeMillis() - dropTime;
+		if (explodeTime > timeToLive) {
+			bombExplode.draw(x - 136, y - 136);
+			
+			isExp = true;
+		} else {
+			bombImg.draw(x+5, y+10);
+			isExp = false;
+		}
+
+		try {
+			if (explodeTime > displayTime) {
+				bombExplode = new Image("data/finished.png");
+			}
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public LinkedList<Pos> deadPos(){
+		LinkedList<Pos> lst = new LinkedList<Pos>();
+			int x = getX();
+			lst.add(new Pos(x/34,y/34));
+			
+		for(int i = 1; i < range; i++){
+			
+			lst.add(new Pos(+i,y/34));
+			lst.add(new Pos(x/34-i,y/34));
+			
+			lst.add(new Pos(x,y+i));
+			lst.add(new Pos(x,y-i));
+			
+		}
+		return lst;
+	}
+	public Pos getPos() {
+		Pos pos = new Pos(getX(), getY());
+		return pos;
+	}
+
+	public int getX() {
+		return (int) x / 34;
+	}
+
+	public int getY() {
+		return (int) y / 34;
+	}
+
+	public boolean isExploaded() {
+		return isExp;
+	}
+}

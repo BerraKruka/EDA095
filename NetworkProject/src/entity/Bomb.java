@@ -1,5 +1,8 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -7,19 +10,19 @@ import org.newdawn.slick.tests.xml.Entity;
 
 public class Bomb extends Entity {
 	private float x, y;
-	private float width, height;
 
 	private Image bombImg, bombExplode;
-
+	private int range;
+	
 	public long timeToLive, dropTime, explodeTime, displayTime;
 	private boolean isExp;
 
-	public Bomb(float x, float y, float width, float height, long timeToLive) {
+	public Bomb(float x, float y, long timeToLive) {
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
 
+		this.range = 4;
+		
 		this.timeToLive = timeToLive;
 		try {
 			bombImg = new Image("data/bomb.png");
@@ -56,6 +59,23 @@ public class Bomb extends Entity {
 
 	}
 
+	public LinkedList<Pos> deadPos(){
+		LinkedList<Pos> lst = new LinkedList<Pos>();
+			int x = getX();
+			int y = getY();
+			lst.add(new Pos(x,y));
+			
+		for(int i = 1; i < range; i++){
+			
+			lst.add(new Pos(x+i,y));
+			lst.add(new Pos(x-i,y));
+			
+			lst.add(new Pos(x,y+i));
+			lst.add(new Pos(x,y-i));
+			
+		}
+		return lst;
+	}
 	public Pos getPos() {
 		Pos pos = new Pos(getX(), getY());
 		return pos;

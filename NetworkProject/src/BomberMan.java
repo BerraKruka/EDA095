@@ -5,6 +5,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import Game.GameStart;
+import Game.GameWin;
  
 public class BomberMan extends StateBasedGame{
 
@@ -20,7 +21,9 @@ public class BomberMan extends StateBasedGame{
     	ServerScreen hostGame = new ServerScreen();
     	ServerWaitScreen serverWait = new ServerWaitScreen();
     	ClientWaitScreen clientWait = new ClientWaitScreen();
+   
     	GameStart game = new GameStart();
+    	GameWin gameEnd = new GameWin();
     	// all the screen is to be register.
     	addState(menu);
     	addState(joinGame);
@@ -28,6 +31,7 @@ public class BomberMan extends StateBasedGame{
     	addState(serverWait);
     	addState(clientWait);
     	addState(game);
+    	addState(gameEnd);
 
  
     }
